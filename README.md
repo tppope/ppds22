@@ -33,5 +33,6 @@ calculations on graphics cards and asynchronous programming.</p>
 pointed by the indicator everything looks good and every element of the array has value 1. If we change size of array
 on 1 000 000, problem occurs. Many elements in array have value 2 or 3 but also 0. Sometimes <u>list index out of range</u>
 error occurs.</p>
-<img src="problem_hist.png" alt="problem histogram">
+<img src="problem_hist_vis.png" alt="problem histogram">
+<img src="problem_hist.png" alt="problem histogram visualization">
 <p>We are going to use the sync tool lock (mutex) to solve this problem.</p>
