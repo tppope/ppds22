@@ -27,11 +27,19 @@ def do_increment(shared):
 
 
 def make_histogram(data):
+    """Make histogram and print it in console
+
+    :param data: data for histogram
+    """
     counter = Counter(data)
     print("Histogram: %s" % (counter.most_common()))
 
 
 def make_visual_histogram(data):
+    """Make visual histogram and show it graph
+
+    :param data: data for histogram
+    """
     pyplot.hist(x=data)
     pyplot.xticks(range(max(data) + 1))
     pyplot.title('Numbers in array')
