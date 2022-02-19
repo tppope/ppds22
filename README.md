@@ -32,7 +32,10 @@ calculations on graphics cards and asynchronous programming.</p>
 <p><strong>Problem: </strong>When we create an array of size 1000 and the two threads start to increment the value
 pointed by the indicator everything looks good and every element of the array has value 1. If we change size of array
 on 1 000 000, problem occurs. Many elements in array have value 2 or 3 but also 0. Sometimes <u>list index out of range</u>
-error occurs.</p>
+error occurs. This was due to the switching threads occurred after incrementing the value pointed by the indicator and
+thus the thread that incremented the value didn't increase the indicator.</p>
 <img src="problem_hist_vis.png" alt="problem histogram">
 <img src="problem_hist.png" alt="problem histogram visualization">
-<p>We are going to use the sync tool lock (mutex) to solve this problem.</p>
+<p>We are going to use the sync tool lock (mutex) to solve this problem. When the thread aquire the lock than others threads that also want to lock it must wait</p>
+
+
