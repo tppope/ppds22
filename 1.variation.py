@@ -1,6 +1,5 @@
 from collections import Counter
 
-import matplotlib.pyplot as plt
 from fei.ppds import Thread
 from matplotlib import pyplot
 
@@ -29,12 +28,12 @@ def do_increment(shared):
 
 def make_histogram(data):
     counter = Counter(data)
-    print(counter.most_common())
+    print("Histogram: %s" % (counter.most_common()))
 
 
 def make_visual_histogram(data):
     pyplot.hist(x=data)
-    pyplot.xticks(range(max(data)+1))
+    pyplot.xticks(range(max(data) + 1))
     pyplot.title('Numbers in array')
     pyplot.xlabel('Numbers')
     pyplot.ylabel('Count')
