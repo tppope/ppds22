@@ -36,7 +36,7 @@ def make_histogram(data):
 
 
 def make_visual_histogram(data):
-    """Make visual histogram and show it graph
+    """Make visual histogram and show it in graph
 
     :param data: data for histogram
     """
