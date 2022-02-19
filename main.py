@@ -4,6 +4,7 @@ from fei.ppds import Thread, Mutex
 from matplotlib import pyplot
 
 import first_variation
+import second_variation
 
 
 class Shared:
@@ -41,9 +42,11 @@ def make_visual_histogram(data):
 
 
 shared = Shared(1_000_000)
+
 mutex = Mutex()
-t1 = Thread(first_variation.do_increment, shared, mutex)
-t2 = Thread(first_variation.do_increment, shared, mutex)
+
+t1 = Thread(second_variation.do_increment, shared, mutex)
+t2 = Thread(second_variation.do_increment, shared, mutex)
 t1.join()
 t2.join()
 
