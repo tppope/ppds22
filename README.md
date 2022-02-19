@@ -54,9 +54,37 @@ they set [[1]](#1).
 
 When we acquire lock on start of the while cycle, which iterate over whole array, sometimes <u>list index out of
 range</u> error occurs. It is because other thread starts execute another cycle before thread with acquired lock
-increment the indicator. We changed it to acquire lock before while cycle and release it after while cycle ends.
-Everything works fine, but we used small granularity and our program incremented values serially. The whole
-incrementation of array was done by thread, which first acquired lock.
+increment the indicator.
+
+```
+def do_increment(shared, mutex):
+    """Increment elements which the indicator points to
+
+    :param shared: object with shared variables
+    """
+    while shared.indicator < len(shared.numbers):
+        mutex.lock()
+        shared.numbers[shared.indicator] += 1
+        shared.indicator += 1
+        mutex.unlock() 
+```
+
+We changed it to acquire lock before while cycle and release it after while cycle ends. Everything works fine, but we
+used small granularity and our program incremented values serially. The whole incrementation of array was done by
+thread, which first acquired lock.
+
+```
+def do_increment(shared, mutex):
+    """Increment elements which the indicator points to
+
+    :param shared: object with shared variables
+    """
+    mutex.lock()
+    while shared.indicator < len(shared.numbers):
+        shared.numbers[shared.indicator] += 1
+        shared.indicator += 1
+    mutex.unlock()
+```
 
 ## References
 
