@@ -3,7 +3,7 @@ from collections import Counter
 from fei.ppds import Thread, Mutex
 from matplotlib import pyplot
 
-from first_variation import do_increment
+import first_variation
 
 
 class Shared:
@@ -42,8 +42,8 @@ def make_visual_histogram(data):
 
 shared = Shared(1_000_000)
 mutex = Mutex()
-t1 = Thread(do_increment, shared, mutex)
-t2 = Thread(do_increment, shared, mutex)
+t1 = Thread(first_variation.do_increment, shared, mutex)
+t2 = Thread(first_variation.do_increment, shared, mutex)
 t1.join()
 t2.join()
 
