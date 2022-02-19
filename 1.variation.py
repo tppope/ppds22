@@ -1,6 +1,8 @@
 from collections import Counter
 
+import matplotlib.pyplot as plt
 from fei.ppds import Thread
+from matplotlib import pyplot
 
 
 class Shared:
@@ -9,10 +11,10 @@ class Shared:
     def __init__(self, size):
         """Initialize indicator and set size of array with zero numbers
 
-        :param size: size of zero_numbers array
+        :param size: size of numbers array
         """
         self.indicator = 0
-        self.zero_numbers = [0] * size
+        self.numbers = [0] * size
 
 
 def do_increment(shared):
@@ -20,9 +22,23 @@ def do_increment(shared):
 
     :param shared: object with shared variables
     """
-    while shared.indicator < len(shared.zero_numbers):
-        shared.zero_numbers[shared.indicator] += 1
+    while shared.indicator < len(shared.numbers):
+        shared.numbers[shared.indicator] += 1
         shared.indicator += 1
+
+
+def make_histogram(data):
+    counter = Counter(data)
+    print(counter.most_common())
+
+
+def make_visual_histogram(data):
+    pyplot.hist(x=data)
+    pyplot.xticks(range(max(data)+1))
+    pyplot.title('Numbers in array')
+    pyplot.xlabel('Numbers')
+    pyplot.ylabel('Count')
+    pyplot.show()
 
 
 shared = Shared(1_000_000)
@@ -32,5 +48,5 @@ t2 = Thread(do_increment, shared)
 t1.join()
 t2.join()
 
-counter = Counter(shared.zero_numbers)
-print(counter.most_common())
+make_histogram(shared.numbers)
+make_visual_histogram(shared.numbers)
