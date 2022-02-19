@@ -1,6 +1,6 @@
 from collections import Counter
 
-from fei.ppds import Thread
+from fei.ppds import Thread, Mutex
 from matplotlib import pyplot
 
 
@@ -16,14 +16,16 @@ class Shared:
         self.numbers = [0] * size
 
 
-def do_increment(shared):
+def do_increment(shared, mutex):
     """Increment elements which the indicator points to
 
     :param shared: object with shared variables
     """
+    mutex.lock()
     while shared.indicator < len(shared.numbers):
         shared.numbers[shared.indicator] += 1
         shared.indicator += 1
+    mutex.unlock()
 
 
 def make_histogram(data):
@@ -49,9 +51,9 @@ def make_visual_histogram(data):
 
 
 shared = Shared(1_000_000)
-
-t1 = Thread(do_increment, shared)
-t2 = Thread(do_increment, shared)
+mutex = Mutex()
+t1 = Thread(do_increment, shared, mutex)
+t2 = Thread(do_increment, shared, mutex)
 t1.join()
 t2.join()
 
