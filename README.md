@@ -29,12 +29,24 @@ calculations on graphics cards and asynchronous programming.</p>
 <hr>
 <h2>1. Exercise</h2>
 <h3 style="display: inline">Exercise page:</h3> <a href="https://uim.fei.stuba.sk/i-ppds/1-cvicenie-oboznamenie-sa-s-prostredim-🐍 ">https://uim.fei.stuba.sk/i-ppds/1-cvicenie-oboznamenie-sa-s-prostredim-🐍 </a>
-<p><strong>Problem: </strong>When we create an array of size 1000 and for faster enforceability the two threads start to increment the value
-pointed by the indicator everything looks good and every element of the array has value 1. If we change size of array
-on 1 000 000, problem occurs. Many elements in array have value 2 or 3 but also 0. Sometimes <u>list index out of range</u>
-error occurs. This was due to the switching threads occurred after incrementing the value pointed by the indicator and
+<p><strong>Problem: </strong>When we create an array of size 1000 for faster enforceability and the two threads start to increment the value
+pointed by the indicator, everything looks good and every element of the array has value 1. If we change size of array
+on 1 000 000, problem occurs. Many elements in array have value 2 or 3 but also 0. Sometimes, <u>list index out of range</u>
+error occurs. This was due to the switching threads occurred after incrementing the value pointed by the indicator, and
 thus the thread that incremented the value didn't increase the indicator.</p>
 <img src="problem_hist_vis.png" alt="problem histogram">
 <img src="problem_hist.png" alt="problem histogram visualization">
-<p>We are going to use the sync tool lock (mutex) to solve this problem. When the thread aquire the lock than others threads that also want to lock it must wait</p>
+
+We are going to use the sync tool lock (mutex) to solve this problem. When the thread aquire the lock, than others
+threads, that also want to lock it, must wait. In our variation of using lock (mutex) we will not see time differences
+because of GIL(Global interpreter lock) in python. GIL prevents the parallel execution of threads, but doesn't prevent
+competitive execution, which is sufficient for our needs. Competitive events may or may not run simultaneously. We say
+that events in the program are performed competitively if, due to the source code, we cannot determine in what order
+they set [[1]](#1).
+
+## References
+
+<a id="1">[1]</a>
+Matúš Jókay. PPaDS MMXXII.
+<a href="https://uim.fei.stuba.sk/wp-content/uploads/2018/02/2022-01.uvod-do-paralelnych-a-distribuovanych-vypoctov.pdf">https://uim.fei.stuba.sk/wp-content/uploads/2018/02/2022-01.uvod-do-paralelnych-a-distribuovanych-vypoctov.pdf </a>
 
