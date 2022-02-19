@@ -3,6 +3,8 @@ from collections import Counter
 from fei.ppds import Thread, Mutex
 from matplotlib import pyplot
 
+from first_variation import do_increment
+
 
 class Shared:
     """Wrapper of the shared variables among threads"""
@@ -14,18 +16,6 @@ class Shared:
         """
         self.indicator = 0
         self.numbers = [0] * size
-
-
-def do_increment(shared, mutex):
-    """Increment elements which the indicator points to
-
-    :param shared: object with shared variables
-    """
-    mutex.lock()
-    while shared.indicator < len(shared.numbers):
-        shared.numbers[shared.indicator] += 1
-        shared.indicator += 1
-    mutex.unlock()
 
 
 def make_histogram(data):
