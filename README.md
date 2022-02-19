@@ -40,8 +40,11 @@ array on 1 000 000, problem occurs. Many elements in array have value 2 or 3 but
 range</u> error occurs. This was due to the switching threads occurred after incrementing the value pointed by the
 indicator, and thus the thread that incremented the value didn't increase the indicator.
 
-![Problem histogram](problem_hist_vis.png)
-![Problem histogram visualization](problem_hist.png)
+<p style="text-align: center">
+    <img src="problem_hist_vis.png" alt="Problem histogram visualization">
+    <br>
+    <img src="problem_hist.png" alt="Problem histogram">
+</p>
 
 We are going to use the sync tool lock (mutex) to solve this problem. When the thread aquire the lock, than others
 threads, that also want to lock it, must wait. In our variation of using lock (mutex) we will not see time differences
@@ -102,3 +105,4 @@ while True:
 Matúš Jókay. PPaDS MMXXII.
 <a href="https://uim.fei.stuba.sk/wp-content/uploads/2018/02/2022-01.uvod-do-paralelnych-a-distribuovanych-vypoctov.pdf">https://uim.fei.stuba.sk/wp-content/uploads/2018/02/2022-01.uvod-do-paralelnych-a-distribuovanych-vypoctov.pdf </a>
 
+img { display: block; float: none; margin-left: auto; margin-right: auto; width: 50%; }
