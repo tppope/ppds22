@@ -32,7 +32,7 @@ ___
 
 ## 1. Exercise
 
-> **For more information about exercise visit [exercise page](https://uim.fei.stuba.sk/i-ppds/1-cvicenie-oboznamenie-sa-s-prostredim-🐍)**
+> **For more information about exercise visit [exercise page](https://uim.fei.stuba.sk/i-ppds/1-cvicenie-oboznamenie-sa-s-prostredim-🐍).**
 
 **Problem:** When we create an array of size 1000 for faster enforceability and the two threads start to increment the
 value pointed by the indicator, everything looks good and every element of the array has value 1. If we change size of
@@ -57,16 +57,11 @@ range</u> error occurs. It is because other thread starts execute another cycle 
 increment the indicator.
 
 ```
-def do_increment(shared, mutex):
-    """Increment elements which the indicator points to
-
-    :param shared: object with shared variables
-    """
-    while shared.indicator < len(shared.numbers):
-        mutex.lock()
-        shared.numbers[shared.indicator] += 1
-        shared.indicator += 1
-        mutex.unlock() 
+while shared.indicator < len(shared.numbers):
+    mutex.lock()
+    shared.numbers[shared.indicator] += 1
+    shared.indicator += 1
+    mutex.unlock() 
 ```
 
 We changed it to acquire lock before while cycle and release it after while cycle ends. Everything works fine, but we
@@ -74,15 +69,30 @@ used small granularity and our program incremented values serially. The whole in
 thread, which first acquired lock.
 
 ```
-def do_increment(shared, mutex):
-    """Increment elements which the indicator points to
+mutex.lock()
+while shared.indicator < len(shared.numbers):
+    shared.numbers[shared.indicator] += 1
+    shared.indicator += 1
+mutex.unlock()
+```
 
-    :param shared: object with shared variables
-    """
+### 2. Variation
+
+Before second variation of using mutex lock, we changed while cycle. We put the condition inside the cycle to create
+higher granularity. Now in the while cycle are all threads and take turns executing the code.  
+The condition is now in a critical area, which is part of the code that must be executed atomically. We give the
+critical area between acquire and release lock. In this variation of using mutex lock isn't possible to occur <u>list
+index out of range</u> error, because thread waiting to release lock checks the condition only when thread holding the
+lock increment the indicator value and release the lock.
+
+```
+while True:
     mutex.lock()
-    while shared.indicator < len(shared.numbers):
-        shared.numbers[shared.indicator] += 1
-        shared.indicator += 1
+    if shared.indicator >= len(shared.numbers):
+        mutex.unlock()
+        break
+    shared.numbers[shared.indicator] += 1
+    shared.indicator += 1
     mutex.unlock()
 ```
 
