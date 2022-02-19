@@ -42,7 +42,7 @@ def make_visual_histogram(data):
     """
     pyplot.hist(x=data)
     pyplot.xticks(range(max(data) + 1))
-    pyplot.title('Numbers in array')
+    pyplot.title('Count of numbers in array')
     pyplot.xlabel('Numbers')
     pyplot.ylabel('Count')
     pyplot.show()
