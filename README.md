@@ -43,6 +43,14 @@ because of GIL(Global interpreter lock) in python. GIL prevents the parallel exe
 competitive execution, which is sufficient for our needs. Competitive events may or may not run simultaneously. We say
 that events in the program are performed competitively if, due to the source code, we cannot determine in what order
 they set [[1]](#1).
+<h3>1. Variation</h3>
+<p>
+When we acquire lock on start of the while cycle, which iterate over whole array, sometimes <u>list index out of range</u>
+error occurs. It is because other thread starts execute another cycle before thread with acquired 
+lock increment the indicator. We changed it to acquire lock before while cycle and release it after while cycle ends.
+Everything works fine, but we used small granularity and our program incremented values serially. The whole incrementation
+of array was done by thread, which first acquired lock.
+</p>
 
 ## References
 
