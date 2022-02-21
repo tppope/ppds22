@@ -68,7 +68,7 @@ while shared.indicator < len(shared.numbers):
 ```
 
 We changed it to acquire lock before while cycle and release it after while cycle ends. Everything works fine, but we
-used small granularity and our program incremented values serially. The whole incrementation of array was done by
+used coarse granularity and our program incremented values serially. The whole incrementation of array was done by
 thread, which first acquired lock.
 
 ```
@@ -82,7 +82,7 @@ mutex.unlock()
 ### 2. Variation
 
 Before second variation of using mutex lock, we changed while cycle. We put the condition inside the cycle to create
-higher granularity. Now in the while cycle are all threads and take turns executing the code.  
+finer granularity. Now in the while cycle are all threads and take turns executing the code.  
 The condition is now in a critical area, which is part of the code that must be executed atomically. We give the
 critical area between acquire and release lock. In this variation of using mutex lock isn't possible to occur <u>list
 index out of range</u> error, because thread waiting to release lock checks the condition only when thread holding the
