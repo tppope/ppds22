@@ -41,14 +41,15 @@ def make_visual_histogram(data):
     pyplot.show()
 
 
-shared = Shared(1_000_000)
+if __name__ == "__main__":
+    shared = Shared(1_000_000)
 
-mutex = Mutex()
+    mutex = Mutex()
 
-t1 = Thread(second_variation.do_increment, shared, mutex)
-t2 = Thread(second_variation.do_increment, shared, mutex)
-t1.join()
-t2.join()
+    t1 = Thread(second_variation.do_increment, shared, mutex)
+    t2 = Thread(second_variation.do_increment, shared, mutex)
+    t1.join()
+    t2.join()
 
-make_histogram(shared.numbers)
-make_visual_histogram(shared.numbers)
+    make_histogram(shared.numbers)
+    make_visual_histogram(shared.numbers)
