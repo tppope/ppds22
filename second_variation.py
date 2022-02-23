@@ -1,3 +1,11 @@
+"""
+    Author: Tomas Popik
+
+    This file contains second variation of using mutex lock synchronization while two threads increment elements in
+    array with common index indicator. This variation shows finer granularity for critical area.
+"""
+
+
 def do_increment(shared, mutex):
     """Increment elements which the indicator points to
 
