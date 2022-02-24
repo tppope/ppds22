@@ -35,7 +35,14 @@ class SemaphoreSimpleBarrier:
 
 
 class EventSimpleBarrier:
+    """Synchronization pattern to achieve synchronization where all threads wait for each other before executing
+    critical area. It is using abstract data types Mutex and Event for synchronization."""
+
     def __init__(self, n):
+        """Initialize number of threads to wait, counter and abstract data type Mutex and Event for synchronization
+
+        :param n: number of threads to wait on barrier
+        """
         self.n = n
         self.counter = 0
         self.mutex = Mutex()
@@ -43,4 +50,3 @@ class EventSimpleBarrier:
 
     def wait(self):
         pass
-
