@@ -1,3 +1,9 @@
+"""
+    Author: Tomas Popik
+
+    This file contains implementation of synchronization patterns that using abstract data types for synchronization.
+"""
+
 from fei.ppds import Mutex, Semaphore
 
 
