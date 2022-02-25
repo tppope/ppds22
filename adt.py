@@ -49,6 +49,10 @@ class EventSimpleBarrier:
         self.event = Event()
 
     def wait(self):
+        """A function that forces threads to wait until the last thread arrives. It uses a mutex to atomically
+        increment the counter and verify the condition. Uses the Event function to implement the barrier.
+
+        """
         self.mutex.lock()
         self.counter += 1
         if self.counter == self.n:
