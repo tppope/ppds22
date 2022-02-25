@@ -64,13 +64,25 @@ class EventSimpleBarrier:
 
 
 class ReusableEventSimpleBarrier:
+    """Synchronization pattern to achieve synchronization where all threads wait for each other before executing
+    critical area. It is using abstract data types Mutex and Event for synchronization. Its instance is reusable,
+    thanks to which it can be used in a cycle."""
+
     def __init__(self, n):
+        """Initialize number of threads to wait, counter and abstract data type Mutex and Event for synchronization
+
+        :param n: number of threads to wait on barrier
+        """
         self.n = n
         self.counter = 0
         self.mutex = Mutex()
         self.event = Event()
 
     def wait(self):
+        """A function that forces threads to wait until the last thread arrives. It uses a mutex to atomically
+        increment the counter and verify the condition. Uses the Event functions to implement the barrier.
+
+        """
         self.mutex.lock()
         self.counter += 1
         temp_counter = self.counter
