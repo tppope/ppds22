@@ -11,6 +11,7 @@ from time import sleep
 from fei.ppds import Thread, print
 
 from adt import SemaphoreSimpleBarrier
+from adt import EventSimpleBarrier
 
 
 def barrier_example(barrier, thread_id):
@@ -28,7 +29,7 @@ def barrier_example(barrier, thread_id):
 if __name__ == "__main__":
     threads_count = 5
 
-    simple_barrier = SemaphoreSimpleBarrier(threads_count)
+    simple_barrier = EventSimpleBarrier(threads_count)
 
     threads = [Thread(barrier_example, simple_barrier, i) for i in range(threads_count)]
     for thread in threads:
