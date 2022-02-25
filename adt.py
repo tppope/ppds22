@@ -142,6 +142,9 @@ class SequenceADT:
             self.mutex.unlock()
             self.semaphore2.wait()
 
+            if index == self.index_counter:
+                break
+
     def signal(self):
         """A signal to the next thread in order, that it can begin to perform a critical area. The conditions release
         the waiting fibers if the last fiber to be stopped for the barrier was the fiber to be released.
