@@ -4,7 +4,7 @@
     This file contains implementation of synchronization patterns that using abstract data types for synchronization.
 """
 
-from fei.ppds import Mutex, Semaphore, Event
+from fei.ppds import Mutex, Semaphore, Event, print
 
 
 class SemaphoreSimpleBarrier:
@@ -49,4 +49,10 @@ class EventSimpleBarrier:
         self.event = Event()
 
     def wait(self):
-        pass
+        self.mutex.lock()
+        self.counter += 1
+        if self.counter == self.n:
+            self.event.set()
+            self.counter = 0
+        self.mutex.unlock()
+        self.event.wait()
