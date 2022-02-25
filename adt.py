@@ -22,7 +22,8 @@ class SemaphoreSimpleBarrier:
         self.semaphore = Semaphore(0)
 
     def wait(self):
-        """Simple barrier implementation with atomic counter incrementation and condition checking
+        """A function that forces threads to wait until the last thread arrives. It uses a mutex to atomically
+        increment the counter and verify the condition. Uses the Semaphore functions to implement the barrier.
 
         """
         self.mutex.lock()
@@ -50,7 +51,7 @@ class EventSimpleBarrier:
 
     def wait(self):
         """A function that forces threads to wait until the last thread arrives. It uses a mutex to atomically
-        increment the counter and verify the condition. Uses the Event function to implement the barrier.
+        increment the counter and verify the condition. Uses the Event functions to implement the barrier.
 
         """
         self.mutex.lock()
