@@ -100,7 +100,15 @@ class ReusableEventSimpleBarrier:
 
 
 class SequenceADT:
+    """Synchronization tool for sequencing threads."""
+
     def __init__(self, n):
+        """Initialize number of threads, index counter for the organization of threads, counter1 and counter2 for
+        distinguishing semaphores in the signal function, mutex for atomic operation and semaphores to wait for all
+        the threads so they could be lined up.
+
+        :param n: number of threads to line up
+        """
         self.n = n
         self.index_counter = 0
         self.counter1 = 0
@@ -110,6 +118,10 @@ class SequenceADT:
         self.semaphore2 = Semaphore(0)
 
     def wait(self, index):
+        """A method that stops the threads and releases them in the correct order after the signal.
+
+        :param index: thread index
+        """
         while True:
             self.mutex.lock()
             self.counter1 += 1
@@ -131,6 +143,10 @@ class SequenceADT:
             self.semaphore2.wait()
 
     def signal(self):
+        """A signal to the next thread in order, that it can begin to perform a critical area. The conditions release
+        the waiting fibers if the last fiber to be stopped for the barrier was the fiber to be released.
+
+        """
         self.mutex.lock()
         self.index_counter += 1
         if self.counter1 == self.n - self.index_counter:
