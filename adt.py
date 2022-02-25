@@ -80,7 +80,8 @@ class ReusableEventSimpleBarrier:
 
     def wait(self):
         """A function that forces threads to wait until the last thread arrives. It uses a mutex to atomically
-        increment the counter and verify the condition. Uses the Event functions to implement the barrier.
+        increment the counter and verify the condition. Uses the Event functions to implement the barrier. By
+        implementing the clear function, reusable barrier was made.
 
         """
         self.mutex.lock()
