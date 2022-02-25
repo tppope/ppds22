@@ -94,3 +94,46 @@ class ReusableEventSimpleBarrier:
         self.mutex.unlock()
         if temp_counter != self.n:
             self.event.wait()
+
+
+class SequenceADT:
+    def __init__(self, n):
+        self.n = n
+        self.index_counter = 0
+        self.counter1 = 0
+        self.counter2 = 0
+        self.mutex = Mutex()
+        self.semaphore1 = Semaphore(0)
+        self.semaphore2 = Semaphore(0)
+
+    def wait(self, index):
+        while True:
+            self.mutex.lock()
+            self.counter1 += 1
+            if self.counter1 == self.n - self.index_counter:
+                self.counter1 = 0
+                self.semaphore1.signal(self.n - self.index_counter)
+            self.mutex.unlock()
+            self.semaphore1.wait()
+
+            if index == self.index_counter:
+                break
+
+            self.mutex.lock()
+            self.counter2 += 1
+            if self.counter2 == self.n - self.index_counter:
+                self.counter2 = 0
+                self.semaphore2.signal(self.n - self.index_counter)
+            self.mutex.unlock()
+            self.semaphore2.wait()
+
+    def signal(self):
+        self.mutex.lock()
+        self.index_counter += 1
+        if self.counter1 == self.n - self.index_counter:
+            self.counter1 = 0
+            self.semaphore1.signal(self.n - self.index_counter)
+        elif self.counter2 == self.n - self.index_counter:
+            self.counter2 = 0
+            self.semaphore2.signal(self.n - self.index_counter)
+        self.mutex.unlock()
