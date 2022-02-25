@@ -61,3 +61,14 @@ class EventSimpleBarrier:
             self.counter = 0
         self.mutex.unlock()
         self.event.wait()
+
+
+class ReusableEventSimpleBarrier:
+    def __init__(self, n):
+        self.n = n
+        self.counter = 0
+        self.mutex = Mutex()
+        self.event = Event()
+
+    def wait(self):
+        pass
