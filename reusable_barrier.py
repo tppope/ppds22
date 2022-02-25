@@ -1,3 +1,10 @@
+"""
+    Author: Tomas Popik
+
+    This file contains example usage demonstration of the simple reusable event barrier with using five threads that
+    perform the barrier_example function.
+"""
+
 from time import sleep
 from random import randint
 from fei.ppds import Thread, Mutex, Semaphore
