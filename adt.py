@@ -9,7 +9,8 @@ from fei.ppds import Mutex, Semaphore, Event, print
 
 class SemaphoreSimpleBarrier:
     """Synchronization pattern to achieve synchronization where all threads wait for each other before executing
-    critical area. It is using abstract data types Mutex and Semaphore for synchronization."""
+    critical area. It is using abstract data types Mutex and Semaphore for synchronization.
+    """
 
     def __init__(self, n):
         """Initialize number of threads to wait, counter and abstract data type Mutex and Semaphore for synchronization
@@ -37,7 +38,8 @@ class SemaphoreSimpleBarrier:
 
 class EventSimpleBarrier:
     """Synchronization pattern to achieve synchronization where all threads wait for each other before executing
-    critical area. It is using abstract data types Mutex and Event for synchronization."""
+    critical area. It is using abstract data types Mutex and Event for synchronization.
+    """
 
     def __init__(self, n):
         """Initialize number of threads to wait, counter and abstract data type Mutex and Event for synchronization
@@ -66,7 +68,8 @@ class EventSimpleBarrier:
 class ReusableEventSimpleBarrier:
     """Synchronization pattern to achieve synchronization where all threads wait for each other before executing
     critical area. It is using abstract data types Mutex and Event for synchronization. Its instance is reusable,
-    thanks to which it can be used in a cycle."""
+    thanks to which it can be used in a cycle.
+    """
 
     def __init__(self, n):
         """Initialize number of threads to wait, counter and abstract data type Mutex and Event for synchronization
