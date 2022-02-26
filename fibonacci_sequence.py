@@ -20,8 +20,7 @@ def make_fibonacci(fibonacci, adt, index):
     :param fibonacci: shared list between threads for fibonacci sequence computation with value 0 on index 0 and 1 on
     index 1
     :param adt: own abstract data type for align the threads to the right sequence
-    :param index: an index
-    that points to the value in the fibonacci field that is calculated by the thread with that index
+    :param index: points to the value in the fibonacci field that is calculated by the thread with that index
     """
     sleep(randint(1, 10) / 10)
     adt.wait(index)
