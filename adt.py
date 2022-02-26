@@ -161,3 +161,55 @@ class SequenceSemaphoreADT:
             self.counter2 = 0
             self.semaphore2.signal(self.n - self.index_counter)
         self.mutex.unlock()
+
+
+class SequenceEventADT:
+    """Synchronization tool for sequencing threads."""
+
+    def __init__(self, n):
+        """Initialize number of threads, index counter for the organization of threads, counter of threads,
+        mutex for atomic operation and abstract data type Event to wait for all the threads, so they could be lined up.
+
+        :param n: number of threads to line up
+        """
+        self.n = n
+        self.index_counter = 0
+        self.counter = 0
+        self.mutex = Mutex()
+        self.event = Event()
+
+    def wait(self, index):
+        """A method that stops the threads and releases them in the correct order after the signal.
+
+        :param index: thread index
+        """
+        while True:
+            self.mutex.lock()
+            self.counter += 1
+            # local variable for threads, thanks to which we can avoid blocking the last thread, which will make clear()
+            temp_counter = self.counter
+            if self.counter == self.n - self.index_counter:
+                self.counter = 0
+                self.event.set()
+                self.event.clear()
+            self.mutex.unlock()
+            # do not block the thread that made clear
+            if temp_counter != self.n - self.index_counter:
+                self.event.wait()
+
+            # release thread that has an index that is in line for execution
+            if index == self.index_counter:
+                break
+
+    def signal(self):
+        """A signal to the next thread in order, that it can begin to perform a critical area. The condition release
+        the waiting threads if the last thread to be stopped for the barrier was the thread to be released.
+
+        """
+        self.mutex.lock()
+        self.index_counter += 1
+        if self.counter == self.n - self.index_counter:
+            self.counter = 0
+            self.event.set()
+            self.event.clear()
+        self.mutex.unlock()
