@@ -89,12 +89,14 @@ class ReusableEventSimpleBarrier:
         """
         self.mutex.lock()
         self.counter += 1
+        # local variable for each thread, thanks to which we can avoid blocking the last thread, which will make clear()
         temp_counter = self.counter
         if self.counter == self.n:
             self.counter = 0
             self.event.set()
             self.event.clear()
         self.mutex.unlock()
+        # do not block the thread that made clear
         if temp_counter != self.n:
             self.event.wait()
 
