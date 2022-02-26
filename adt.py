@@ -101,7 +101,7 @@ class ReusableEventSimpleBarrier:
             self.event.wait()
 
 
-class SequenceADT:
+class SequenceSemaphoreADT:
     """Synchronization tool for sequencing threads."""
 
     def __init__(self, n):
