@@ -3,7 +3,7 @@ from time import sleep
 
 from fei.ppds import Thread
 
-from adt import SequenceADT
+from adt import SequenceSemaphoreADT, SequenceEventADT
 
 
 def make_fibonacci(fibonacci, adt, index):
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     fibonacci = [0] * (threads_count + 2)
     fibonacci[1] = 1
 
-    adt = SequenceADT(threads_count)
+    adt = SequenceEventADT(threads_count)
 
     threads = [Thread(make_fibonacci, fibonacci, adt, i) for i in range(threads_count)]
 
