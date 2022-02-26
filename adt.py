@@ -106,8 +106,8 @@ class SequenceSemaphoreADT:
 
     def __init__(self, n):
         """Initialize number of threads, index counter for the organization of threads, counter1 and counter2 for
-        distinguishing semaphores in the signal function, mutex for atomic operation and semaphores to wait for all
-        the threads so they could be lined up.
+        distinguishing semaphores in the signal function, mutex for atomic operation and adt Semaphores to wait for all
+        the threads, so they could be lined up.
 
         :param n: number of threads to line up
         """
