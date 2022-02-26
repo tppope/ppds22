@@ -1,4 +1,4 @@
-# Paralel programming and distributed systems
+# Parallel programming and distributed systems
 
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-blue.svg)](https://conventionalcommits.org)
 
@@ -23,7 +23,7 @@ calculations on graphics cards and asynchronous programming.
 4. Readers / writers again - Evening philosophers
 5. Smokers, savages, scoreboard
 6. Barber, H20, crossing the river, caterpillar track
-7. Coprograms - Iterator, generator and carter in Python
+7. Co-programs - Iterator, generator and carter in Python
 8. Async IO - Async IO in Python
 9. CUDA
 10. CUDA continues
@@ -50,7 +50,7 @@ print("Vlakno %d po bariere" % thread_id)
 For first demonstration we will use simple barrier which is using abstract data type Semaphore initialized on value 0.
 Semaphore is using functions wait() and signal(n). Wait() decrement internal Semaphore value and if it is negative
 value, the thread that called it must wait. When some thread calls function signal(n). internal value of Semaphore is
-incremented, and when some threads is waiting, n of them will continue, but we don't know in which order they will be.
+incremented, and when some threads are waiting, n of them will continue, but we don't know in which order they will be.
 The thread that called the signal(n) can also continue.
 
 ```
@@ -194,7 +194,7 @@ while True:
         break
 ```
 
-Implementation of the wait() function where all threads are always waited and it is checked whether it is the turn of
+Implementation of the wait() function where all threads are always waited, and it is checked whether it is the turn of
 the thread to perform its calculation.
 
 ```
