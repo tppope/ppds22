@@ -147,7 +147,7 @@ class SequenceADT:
 
     def signal(self):
         """A signal to the next thread in order, that it can begin to perform a critical area. The conditions release
-        the waiting fibers if the last fiber to be stopped for the barrier was the fiber to be released.
+        the waiting threads if the last thread to be stopped for the barrier was the thread to be released.
 
         """
         self.mutex.lock()
