@@ -73,7 +73,7 @@ set() changes internal value on true, so all waiting threads can continue on pro
 when wait() is called.
 
 ```
-sself.mutex.lock()
+self.mutex.lock()
 self.counter += 1
 if self.counter == self.n:
     self.event.set()
@@ -86,4 +86,57 @@ It is a simple implementation where the last thread that passes the function cal
 the following code competitively. No clear() function was used as this barrier is not intended to be reused to block
 threads.
 
+## 2. Task - Reusable barrier
+
+We will continue in the first task, but now we will try to create a reusable barrier using the synchronization abstract
+data type Event. We will use the clear() function, which will change the internal value of the Event to false, and any
+call to wait() that will follow clear will then be blocked.  
+The clear() function needs to be called when the last thread crosses the barrier, so our first implementation looked
+like this.
+
+```
+self.mutex.lock()
+self.counter += 1
+temp_counter = self.counter
+if self.counter == self.n:
+    self.event.set()
+self.mutex.unlock()
+self.event.wait()
+self.mutex.lock()
+self.counter -= 1
+if not self.counter:
+    self.event.clear()
+self.mutex.unlock()
+```
+
+When the counter drops to 0, it is clear that the last thread has passed and clear() can be called so that the next
+wait() call can be blocked. In this implementation, it is necessary to use two different barriers when reusing, because
+until the last thread calls clear(), some threads will not be blocked by calling wait() if they pass it again. Also, the
+last condition does not have to be under the mutex lock because it does not matter how many times clear() is called.
+
+```
+self.mutex.lock()
+self.counter += 1
+temp_counter = self.counter
+if self.counter == self.n:
+    self.counter = 0
+    self.event.set()
+    self.event.clear()
+self.mutex.unlock()
+if temp_counter != self.n:
+    self.event.wait()
+```
+
+On the second attempt, we created an implementation where we use the local variable temp_counter, which will be unique
+for each thread, because each thread first increments the value of the counter, which is then stored in temp_counter.
+Since the value of the temp_counter variable is unique, we know that the last thread that hits the barrier will have a
+temp_counter value equal to the number of threads that the barrier should stop. Therefore, we can use the last condition
+to determine that all threads are blocked except the last one. The last thread reset counter, release all pending
+threads and call clear(). Unlike the use of a semaphore barrier, where it was necessary to use two different barriers,
+because one single thread could decrement the value charged by the signal(n) function, in this implementation it is not
+necessary as the last thread must release the lock for the new thread to continue. But it will be clear after the call.
+But it will be after calling the call().
+
+PS... It is also possible to create an implementation where the first thread calls clear() and the last thread calls
+set().
 
