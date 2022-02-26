@@ -1,3 +1,10 @@
+"""
+    Author: Tomas Popik
+
+    This file contains example fibonacci sequence computations with (threads_count + 2) elements using threads_count
+    threads. This example shows the use of synchronization abstract data types to sort thread execution.
+"""
+
 from random import randint
 from time import sleep
 
