@@ -62,3 +62,28 @@ if self.counter == self.n:
 self.mutex.unlock()
 self.semaphore.wait()
 ```
+
+## 1. Task - ADT SimpleBarrier using ADT Event
+
+In the first task we are going to execute the same program as in the exercise description, but we will implement a
+simple barrier using an abstract data type Event. Event is using functions wait(), clear() and set() for
+synchronization. The wait() blocks the thread when the internal value is false. When internal value is true, do nothing.
+The clear() resets internal value of Event on false, so that the thread can be blocked when the wait() is called. The
+set() changes internal value on true, so all waiting threads can continue on program execution and no thread is blocked
+when wait() is called.
+
+```
+sself.mutex.lock()
+self.counter += 1
+if self.counter == self.n:
+    self.event.set()
+    self.counter = 0
+self.mutex.unlock()
+self.event.wait()
+```
+
+It is a simple implementation where the last thread that passes the function calls set() and all threads continue to run
+the following code competitively. No clear() function was used as this barrier is not intended to be reused to block
+threads.
+
+
