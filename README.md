@@ -210,7 +210,7 @@ self.mutex.unlock()
 In the signal() function, a thread gives a signal to all threads that it has performed its calculation. The condition is
 there because the last thread that was supposed to stop at the barrier was the thread that has turned to perform the
 calculation. As a result, not all threads have reached the barrier and the waiting threads need to be released. This is
-done by calling the set() and clear() functions so that the next wait call can stop the threads. Since this is done
+done by calling the set() and clear() functions so that the next wait() call can stop the threads. Since this is done
 under a common lock, calling the wait() function with other threads will be after calling the clear() function by last
 thread.
 
