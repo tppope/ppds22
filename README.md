@@ -140,3 +140,80 @@ But it will be after calling the call().
 PS... It is also possible to create an implementation where the first thread calls clear() and the last thread calls
 set().
 
+## 3. Task - Fibonacci sequence
+
+The task is to create a synchronization tool that sorts the threads so that they calculate the value in the Fibonacci
+sequence on the index that was assigned to them when they were created. So a thread can perform a calculation only if
+another thread has already performed the calculation before it.  
+The first solution that came to my mind was a very simple solution without the use of any synchronization tools.
+
+```
+sleep(randint(1, 10) / 10)
+while not fibonacci[len(fibonacci) - 1]:
+    if fibonacci[index + 1]:
+        fibonacci[index + 2] = fibonacci[index] + fibonacci[index + 1]
+```
+
+This implementation worked fine on multiple threads or on the force generated delay in all parts of this implementation.
+But I found it inefficient because the threads in this cycle execute the code indefinitely and switch between each other
+until the thread before writes the value to such a place so that the next thread can use that place for the
+calculation.  
+I also wanted to keep the pattern that was shown in the exercise:
+
+```
+sleep(randint(1, 10) / 10)
+adt.wait(index)
+fibonacci[index + 2] = fibonacci[index] + fibonacci[index + 1] # critical area
+adt.signal()
+```
+
+Use some synchronizations tool to sort the threads, and if the thread performs its calculation, let the thread know that
+it can perform its calculation (critical area).
+
+We used the knowledge from previous tasks and created a reusable barrier that will stop the threads in the cycle and
+wait for the thread signal that it has already done the calculation. When using a semaphore barrier, we must use two
+semaphores because with one semaphore, one thread would be able to use the entire charged semaphore by calling the
+wait() function. Because of this, other threads would not be included in their calculation.  
+As an example in the documentation, we present a synchronization tool for sorting threads using the abstract data type
+Event:
+
+```
+while True:
+    self.mutex.lock()
+    self.counter += 1
+    temp_counter = self.counter
+    if self.counter == self.n - self.index_counter:
+        self.counter = 0
+        self.event.set()
+        self.event.clear()
+    self.mutex.unlock()
+    if temp_counter != self.n - self.index_counter:
+        self.event.wait()
+
+    if index == self.index_counter:
+        break
+```
+
+Implementation of the wait() function where all threads are always waited and it is checked whether it is the turn of
+the thread to perform its calculation.
+
+```
+self.mutex.lock()
+self.index_counter += 1
+if self.counter == self.n - self.index_counter:
+    self.counter = 0
+    self.event.set()
+    self.event.clear()
+self.mutex.unlock()
+```
+
+In the signal() function, a thread gives a signal to all threads that it has performed its calculation. The condition is
+there because the last thread that was supposed to stop at the barrier was the thread that has turned to perform the
+calculation. As a result, not all threads have reached the barrier and the waiting threads need to be released. This is
+done by calling the set() and clear() functions so that the next wait call can stop the threads. Since this is done
+under a common lock, calling the wait() function with other threads will be after calling the clear() function by last
+thread.
+
+By creating our own synchronization tool for sorting threads using Event, we only needed two abstract data types. Mutex
+and Event. When using Semaphore, we needed two Semaphores and one Mutex, which also complicated the signal function
+where we had to check if the last thread did not cross the first or second barrier.
