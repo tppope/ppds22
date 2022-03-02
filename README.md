@@ -59,7 +59,7 @@ When we acquire lock on start of the while cycle, which iterate over whole array
 range</u> error occurs. It is because other thread starts execute another cycle before thread with acquired lock
 increment the indicator.
 
-```
+```python
 while shared.indicator < len(shared.numbers):
     mutex.lock()
     shared.numbers[shared.indicator] += 1
@@ -71,7 +71,7 @@ We changed it to acquire lock before while cycle and release it after while cycl
 used coarse granularity and our program incremented values serially. The whole incrementation of array was done by
 thread, which first acquired lock.
 
-```
+```python
 mutex.lock()
 while shared.indicator < len(shared.numbers):
     shared.numbers[shared.indicator] += 1
@@ -88,7 +88,7 @@ critical area between acquire and release lock. In this variation of using mutex
 index out of range</u> error, because thread waiting to release lock checks the condition only when thread holding the
 lock increment the indicator value and release the lock.
 
-```
+```python
 while True:
     mutex.lock()
     if shared.indicator >= len(shared.numbers):
