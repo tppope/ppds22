@@ -40,7 +40,7 @@ executing a critical part. So in this exercise we will create a simple program w
 demonstrate the execution of a part of the program, after which we will define a place where all threads will wait until
 the last thread arrives. Subsequently, all threads will start competitively performing the critical part.
 
-```
+```python
 sleep(randint(1, 10) / 10)
 print("Vlakno %d pred barierou" % thread_id)
 barrier.wait()
@@ -53,7 +53,7 @@ value, the thread that called it must wait. When some thread calls function sign
 incremented, and when some threads are waiting, n of them will continue, but we don't know in which order they will be.
 The thread that called the signal(n) can also continue.
 
-```
+```python
 self.mutex.lock()
 self.counter += 1
 if self.counter == self.n:
@@ -72,7 +72,7 @@ The clear() resets internal value of Event on false, so that the thread can be b
 set() changes internal value on true, so all waiting threads can continue on program execution and no thread is blocked
 when wait() is called.
 
-```
+```python
 self.mutex.lock()
 self.counter += 1
 if self.counter == self.n:
@@ -94,7 +94,7 @@ call to wait() that will follow clear will then be blocked.
 The clear() function needs to be called when the last thread crosses the barrier, so our first implementation looked
 like this.
 
-```
+```python
 self.mutex.lock()
 self.counter += 1
 temp_counter = self.counter
@@ -114,7 +114,7 @@ wait() call can be blocked. In this implementation, it is necessary to use two d
 until the last thread calls clear(), some threads will not be blocked by calling wait() if they pass it again. Also, the
 last condition does not have to be under the mutex lock because it does not matter how many times clear() is called.
 
-```
+```python
 self.mutex.lock()
 self.counter += 1
 temp_counter = self.counter
@@ -147,7 +147,7 @@ sequence on the index that was assigned to them when they were created. So a thr
 another thread has already performed the calculation before it.  
 The first solution that came to my mind was a very simple solution without the use of any synchronization tools.
 
-```
+```python
 sleep(randint(1, 10) / 10)
 while not fibonacci[len(fibonacci) - 1]:
     if fibonacci[index + 1]:
@@ -160,7 +160,7 @@ until the thread before writes the value to such a place so that the next thread
 calculation.  
 I also wanted to keep the pattern that was shown in the exercise:
 
-```
+```python
 sleep(randint(1, 10) / 10)
 adt.wait(index)
 fibonacci[index + 2] = fibonacci[index] + fibonacci[index + 1] # critical area
@@ -177,7 +177,7 @@ wait() function. Because of this, other threads would not be included in their c
 As an example in the documentation, we present a synchronization tool for sorting threads using the abstract data type
 Event:
 
-```
+```python
 while True:
     self.mutex.lock()
     self.counter += 1
@@ -197,7 +197,7 @@ while True:
 Implementation of the wait() function where all threads are always waited, and it is checked whether it is the turn of
 the thread to perform its calculation.
 
-```
+```python
 self.mutex.lock()
 self.index_counter += 1
 if self.counter == self.n - self.index_counter:
