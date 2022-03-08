@@ -1,4 +1,7 @@
-from fei.ppds import Mutex, Semaphore
+from random import randint
+from time import sleep
+
+from fei.ppds import Mutex, Semaphore, Thread
 
 
 class Shared:
@@ -9,12 +12,29 @@ class Shared:
 
 
 def produce(shared):
-    pass
+    while True:
+        sleep(randint(1, 10) / 10)
+        shared.free.wait()
+        shared.mutex.lock()
+        sleep(randint(1, 10) / 100)
+        shared.mutex.unlock()
+        shared.items.signal()
 
 
 def consume(shared):
-    pass
+    while True:
+        shared.items.wait()
+        shared.mutex.lock()
+        sleep(randint(1, 10) / 100)
+        shared.mutex.unlock()
+        shared.free.signal()
+        sleep(randint(1, 10) / 10)
 
 
 if __name__ == "__main__":
-    pass
+    synch = Shared(10)
+
+    consumers = [Thread(consume, synch) for _ in range(2)]
+    producers = [Thread(produce, synch) for _ in range(5)]
+
+    [thread.join() for thread in producers + consumers]
