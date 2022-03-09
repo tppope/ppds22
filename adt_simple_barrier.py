@@ -16,7 +16,7 @@ from adt import EventSimpleBarrier
 
 
 def barrier_example(barrier, thread_id):
-    """Execution demonstration using sleep and then demonstrate barrier usage to keep all threads waiting for last one
+    """Execution demonstration using sleep and then demonstrate barrier usage to keep all threads waiting for last one.
 
     :param barrier: synchronization pattern using some abstract data type for synchronization
     :param thread_id: identification number of thread that executes this function

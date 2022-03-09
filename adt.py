@@ -14,7 +14,7 @@ class SemaphoreSimpleBarrier:
     """
 
     def __init__(self, n):
-        """Initialize number of threads to wait, counter and abstract data type Mutex and Semaphore for synchronization
+        """Initialize number of threads to wait, counter and abstract data type Mutex and Semaphore for synchronization.
 
         :param n: number of threads to wait on barrier
         """
@@ -43,7 +43,7 @@ class EventSimpleBarrier:
     """
 
     def __init__(self, n):
-        """Initialize number of threads to wait, counter and abstract data type Mutex and Event for synchronization
+        """Initialize number of threads to wait, counter and abstract data type Mutex and Event for synchronization.
 
         :param n: number of threads to wait on barrier
         """
@@ -73,7 +73,7 @@ class ReusableEventSimpleBarrier:
     """
 
     def __init__(self, n):
-        """Initialize number of threads to wait, counter and abstract data type Mutex and Event for synchronization
+        """Initialize number of threads to wait, counter and abstract data type Mutex and Event for synchronization.
 
         :param n: number of threads to wait on barrier
         """
