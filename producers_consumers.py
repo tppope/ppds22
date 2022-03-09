@@ -46,7 +46,7 @@ def produce(shared):
 
 
 def consume(shared):
-    """Consumers threads using this function to demonstrate consumption of items to storage
+    """Consumers threads using this function to demonstrate consumption of items to storage.
 
     :param shared: object with shared abstract data types
     """
