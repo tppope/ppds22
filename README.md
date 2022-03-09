@@ -29,3 +29,18 @@ calculations on graphics cards and asynchronous programming.
 10. CUDA continues
 
 ___
+
+## 3. Exercise
+
+> **For more information about exercise visit [https://uim.fei.stuba.sk/i-ppds/3-cvicenie-fibonacci-vypinac-p-k-c-z-💡/?%2F](https://uim.fei.stuba.sk/i-ppds/3-cvicenie-fibonacci-vypinac-p-k-c-z-💡/?%2F).**
+
+In this exercise, we had to decide whether to implement and then experiment on the synchronization task of "producers
+and consumers" or "readers and writers".
+
+I have chosen implementation and then experimentation on the synchronization task "producers and consumers", who
+represent parallel threads accessing a shared space. We will not have any shared memory space in our models, but we will
+demonstrate writing and reading by some random delay. The size of the imaginary shared space will be defined by the
+initialization of Semaphore "storage", which will take care of synchronizing production to the shared memory space if it
+is already full. Semaphore "items", which will take care of synchronizing consumption from the memory location, if there
+is nothing to consume. By initializing Semaphore, we will take care of synchronizing consumption from a memory location
+if there is nothing to consume.
