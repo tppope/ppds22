@@ -17,10 +17,10 @@ import second_variation
 
 
 class Shared:
-    """Wrapper of the shared variables among threads"""
+    """Wrapper of the shared variables among threads."""
 
     def __init__(self, size):
-        """Initialize indicator and set size of array with zero numbers
+        """Initialize indicator and set size of array with zero numbers.
 
         :param size: size of numbers array
         """
@@ -29,7 +29,7 @@ class Shared:
 
 
 def make_histogram(data):
-    """Make histogram and print it in console
+    """Make histogram and print it in console.
 
     :param data: data for histogram
     """
@@ -38,7 +38,7 @@ def make_histogram(data):
 
 
 def make_visual_histogram(data):
-    """Make visual histogram and show it in graph
+    """Make visual histogram and show it in graph.
 
     :param data: data for histogram
     """
