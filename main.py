@@ -1,5 +1,6 @@
 """
     Author: Tomas Popik
+    License: MIT
 
     This file contains an example program of mutex lock synchronization while two threads increment elements in array
     with common index indicator. It's implementation of the first assignment on the subject of parallel programming and

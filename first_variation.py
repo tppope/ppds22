@@ -1,5 +1,6 @@
 """
     Author: Tomas Popik
+    License: MIT
 
     This file contains first variation of using mutex lock synchronization while two threads increment elements in
     array with common index indicator. This variation shows coarse granularity for critical area.
