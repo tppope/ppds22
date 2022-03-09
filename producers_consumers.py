@@ -1,3 +1,11 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains implementation and then experimentation on the synchronization task "producers and consumers",
+    who represent parallel threads accessing a shared space.
+"""
+
 from random import randint
 from time import sleep
 
