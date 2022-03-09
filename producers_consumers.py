@@ -13,7 +13,15 @@ from fei.ppds import Mutex, Semaphore, Thread, print
 
 
 class Shared:
+    """Wrapper of the shared abstract types among producers and consumers threads"""
+
     def __init__(self, capacity):
+        """Initialize mutex lock for atomic read and write operation, storage Semaphore for stop producing when
+        storage is full, items Semaphore for stop consuming when nothing is produced and end variable to warn
+        producers and consumers to stop doing computation.
+
+        :param capacity: capacity of storage
+        """
         self.end = False
         self.mutex = Mutex()
         self.storage = Semaphore(capacity)
@@ -21,6 +29,10 @@ class Shared:
 
 
 def produce(shared):
+    """Producers threads using this function to demonstrate production of items to storage.
+
+    :param shared: object with shared abstract data types
+    """
     while True:
         sleep(randint(1, 10) / 10)
         shared.storage.wait()
@@ -34,6 +46,10 @@ def produce(shared):
 
 
 def consume(shared):
+    """Consumers threads using this function to demonstrate consumption of items to storage
+
+    :param shared: object with shared abstract data types
+    """
     while True:
         shared.items.wait()
         if shared.end:
