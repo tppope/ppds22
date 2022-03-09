@@ -1,5 +1,6 @@
 """
     Author: Tomas Popik
+    License: MIT
 
     This file contains implementation of synchronization patterns that using abstract data types for synchronization.
 """

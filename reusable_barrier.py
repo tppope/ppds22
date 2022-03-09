@@ -1,5 +1,6 @@
 """
     Author: Tomas Popik
+    License: MIT
 
     This file contains example usage demonstration of the simple reusable event barrier with using five threads that
     perform the barrier_example function.
