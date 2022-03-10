@@ -39,7 +39,7 @@ def produce(shared):
     while True:
 
         # time demonstration of item production
-        sleep(randint(1, 10) / 10)
+        sleep(randint(1, 10) / 100)
 
         shared.storage.wait()
         if shared.end:
@@ -47,7 +47,7 @@ def produce(shared):
         shared.mutex.lock()
 
         # time demonstration of item storage
-        sleep(randint(1, 10) / 100)
+        sleep(randint(1, 10) / 1000)
 
         shared.mutex.unlock()
         shared.items.signal()
@@ -65,13 +65,13 @@ def consume(shared):
         shared.mutex.lock()
 
         # time demonstration of item consumption
-        sleep(randint(1, 10) / 100)
+        sleep(randint(1, 10) / 1000)
 
         shared.mutex.unlock()
         shared.storage.signal()
 
         # time demonstration of item processing
-        sleep(randint(1, 10) / 10)
+        sleep(randint(1, 10) / 100)
 
         shared.processed_items_mutex.lock()
         shared.processed_items += 1
@@ -84,9 +84,9 @@ if __name__ == "__main__":
     consumers = [Thread(consume, synch) for _ in range(2)]
     producers = [Thread(produce, synch) for _ in range(5)]
 
-    # work time of producers and consumers
-    sleep(5)
-    synch.end = True
+                # work time of producers and consumers
+                sleep(1)
+                synch.end = True
 
     print('Main thread: waiting for completion')
 
