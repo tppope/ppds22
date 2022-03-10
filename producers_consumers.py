@@ -9,7 +9,9 @@
 from random import randint
 from time import sleep
 
+import numpy
 from fei.ppds import Mutex, Semaphore, Thread, print
+from matplotlib import pyplot as plt, cm
 
 
 class Shared:
@@ -76,6 +78,28 @@ def consume(shared):
         shared.processed_items_mutex.lock()
         shared.processed_items += 1
         shared.processed_items_mutex.unlock()
+
+
+def make_graph(x, y, z):
+    """Implementation of 3D-surface graph.
+
+    :param x: data on x-axis
+    :param y: data on y-axis
+    :param z: data on z-axis
+    """
+    fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+
+    x, y = numpy.meshgrid(x, y)
+
+    # Plot the surface
+    ax.plot_surface(x, y, numpy.array(z), cmap=cm.coolwarm, linewidth=0, antialiased=False)
+
+    # label names
+    ax.set_zlabel("processed items")
+    ax.set_xlabel("consumers count")
+    ax.set_ylabel("producers count")
+
+    plt.show()
 
 
 if __name__ == "__main__":
