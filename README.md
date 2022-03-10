@@ -90,7 +90,7 @@ In our experiment, we depend on the number of consumers, the number of producers
 constant storage size (10 items) and an execution time of 1 second. The reading and writing time from a shared memory
 location can vary from 0.01 to 0.001 seconds. The time to produce and process an item can be from 0.1 to 0.01 seconds.
 
-We will vary the number of consumers from 2 to 12 and the number of producers from 5 to 15. In each combination (100
+We will vary the number of consumers from 2 to 12 and the number of producers from 5 to 15. In each combination (121
 combinations) of the number of producers and consumers we will perform 10 times 1 second production and consumption,
 where we record how many items were processed, and then we calculate the average value for 10 repetitions. We then
 record this in the 3D surface graph.
