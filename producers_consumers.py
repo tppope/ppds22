@@ -26,6 +26,8 @@ class Shared:
         self.mutex = Mutex()
         self.storage = Semaphore(capacity)
         self.items = Semaphore(0)
+        self.processed_items = 0
+        self.processed_items_mutex = Mutex()
 
 
 def produce(shared):
@@ -69,6 +71,10 @@ def consume(shared):
 
         # time demonstration of item processing
         sleep(randint(1, 10) / 10)
+
+        shared.processed_items_mutex.lock()
+        shared.processed_items += 1
+        shared.processed_items_mutex.unlock()
 
 
 if __name__ == "__main__":
