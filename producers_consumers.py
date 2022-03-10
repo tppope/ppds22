@@ -103,21 +103,38 @@ def make_graph(x, y, z):
 
 
 if __name__ == "__main__":
-    synch = Shared(10)
+    consumers_count = list(range(2, 13))
+    producers_count = list(range(5, 16))
+    iterations = 10
+    item_average_counts = []
+    for consumer in consumers_count:
+        item_average_counts.append([])
+        for producer in producers_count:
+            total_item_count = 0
+            for i in range(iterations):
+                synch = Shared(10)
 
-    consumers = [Thread(consume, synch) for _ in range(2)]
-    producers = [Thread(produce, synch) for _ in range(5)]
+                producers = [Thread(produce, synch) for _ in range(producer)]
+                consumers = [Thread(consume, synch) for _ in range(consumer)]
 
                 # work time of producers and consumers
                 sleep(1)
                 synch.end = True
 
-    print('Main thread: waiting for completion')
+                print('Iteration %d - Main thread: waiting for completion' % i)
 
-    # release of producers and consumers who were waiting for their computation when notified of stop doing computation
-    synch.storage.signal(100)
-    synch.items.signal(100)
+                # release of producers and consumers who were waiting for their computation when notified of stop doing
+                # computation
+                synch.storage.signal(100)
+                synch.items.signal(100)
 
-    [thread.join() for thread in producers + consumers]
+                [thread.join() for thread in producers + consumers]
 
-    print('Main thread: complete')
+                print('Iteration %d - Main thread: complete' % i)
+
+                total_item_count += synch.processed_items
+
+            # add average value to grid for 3D-surface graph
+            item_average_counts[-1].append(total_item_count / iterations)
+
+    make_graph(consumers_count, producers_count, item_average_counts)
