@@ -18,7 +18,8 @@ class Shared:
     def __init__(self, capacity):
         """Initialize mutex lock for atomic read and write operation, storage Semaphore for stop producing when
         storage is full, items Semaphore for stop consuming when nothing is produced and end variable to warn
-        producers and consumers to stop doing computation.
+        producers and consumers to stop doing computation. Also, initialization of processed items to zero and mutex
+        lock for atomic increment of processed items.
 
         :param capacity: capacity of storage
         """
