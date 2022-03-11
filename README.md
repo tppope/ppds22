@@ -29,3 +29,7 @@ calculations on graphics cards and asynchronous programming.
 10. CUDA continues
 
 ___
+
+## 4. Exercise
+
+> **For more information about exercise visit [https://uim.fei.stuba.sk/i-ppds/4-cvicenie-vecerajuci-filozofi-atomova-elektraren-🍽%EF%B8%8F/](https://uim.fei.stuba.sk/i-ppds/4-cvicenie-vecerajuci-filozofi-atomova-elektraren-🍽%EF%B8%8F/).**
