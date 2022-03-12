@@ -55,3 +55,11 @@ class ReusableEventSimpleBarrier:
         # do not block the thread that made clear
         if temp_counter != self.n:
             self.event.wait()
+
+
+class Control:
+    def __init__(self):
+        self.data_access = Semaphore(1)
+        self.tourniquet = Semaphore(1)
+        self.data_ready = Event()
+        self.barrier = ReusableEventSimpleBarrier(3)
