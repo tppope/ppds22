@@ -1,3 +1,11 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains implementation of synchronization patterns and shared objects that using abstract data types for
+    synchronization problems in nuclear power plant exercise.
+"""
+
 from fei.ppds import Mutex, Semaphore, Event
 
 
