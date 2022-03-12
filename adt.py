@@ -2,13 +2,30 @@ from fei.ppds import Mutex, Semaphore, Event
 
 
 class Lightswitch:
+    """Synchronization pattern to achieve that there will be only one category in the room represented by
+    the Semaphore. The first thread enter the room uses a lightswitch of the given category to block the room
+    and the last thread that leave will unblock it.
+    """
+
     def __init__(self):
+        """Initialize counter of threads on 0, so no thread is in the room. Mutex lock for atomic incrementing
+        and decrementing of the counter and checking the first and last fiber in the room.
+
+        """
         self.counter = 0
         self.mutex = Mutex()
 
     def switch_on(self, room):
+        """The thread that first tries to enter the room represented by the Semaphore locks it using this
+        function. Counter increment and checking if the thread is first is done atomically and then the function returns
+        the number of threads that are in the room.
+
+        :param room: abstract data type Semaphore representing the room
+        :return: the number of threads that are in the room
+        """
         self.mutex.lock()
         self.counter += 1
+        # local variable counter which is different for every thread
         counter = self.counter
         if self.counter == 1:
             room.wait()
@@ -16,6 +33,11 @@ class Lightswitch:
         return counter
 
     def switch_off(self, room):
+        """The thread that is the last to leave the room represented by the Semaphore will open it using this function.
+        Counter decrement and check if the thread is last is done atomically.
+
+        :param room: abstract data type Semaphore representing the room
+        """
         self.mutex.lock()
         self.counter -= 1
         if self.counter == 0:
