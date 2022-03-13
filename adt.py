@@ -61,6 +61,7 @@ class ReusableEventSimpleBarrier:
 
     def __init__(self, n):
         """Initialize number of threads to wait, counter and abstract data type Mutex and Event for synchronization.
+
         :param n: number of threads to wait on barrier
         """
         self.n = n
@@ -72,6 +73,7 @@ class ReusableEventSimpleBarrier:
         """A function that forces threads to wait until the last thread arrives. It uses a mutex to atomically
         increment the counter and verify the condition. Uses the Event functions to implement the barrier. By
         implementing the clear function, reusable barrier was made.
+
         """
         self.mutex.lock()
         self.counter += 1
@@ -88,7 +90,16 @@ class ReusableEventSimpleBarrier:
 
 
 class Control:
+    """Wrapper of the shared abstract types among nuclear power plants threads"""
+
     def __init__(self):
+        """Initialize data_access Semaphore representing a common room for accessing data between monitors and
+        sensors, Semaphore tourniquet to prevent starvation caused by lightswitch, Event data_ready to give a signal
+        to the monitor at the beginning that all the data has already been entered into the storage by the sensors,
+        and they can start reading them. Also initialize barrier for all threads to wait for each other after
+        writing, as each thread takes a different time to write.
+
+        """
         self.data_access = Semaphore(1)
         self.tourniquet = Semaphore(1)
         self.data_ready = Event()
