@@ -1,3 +1,12 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains the implementation of the nuclear power plant exercise, where 3 sensors (P, T and H) write
+    data to the same memory location, from which 8 operators read. The sensors have their own defined space in which
+    to write.
+"""
+
 from random import randint
 from time import sleep
 from fei.ppds import print, Thread
