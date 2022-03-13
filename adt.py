@@ -90,7 +90,7 @@ class ReusableEventSimpleBarrier:
 
 
 class Control:
-    """Wrapper of the shared abstract types among nuclear power plants threads"""
+    """Wrapper of the shared abstract types among nuclear power plants threads."""
 
     def __init__(self):
         """Initialize data_access Semaphore representing a common room for accessing data between monitors and
