@@ -71,3 +71,60 @@ still sensors that had not yet left the room. Therefore, it is necessary that af
 have to wait for each other and then get the signal to write together again. The synchronization pattern barrier, which
 we designed in Exercise 2 and uses the abstract data type Event, will help us with this.
 
+
+### Pseudocode
+
+Pseudocode of functions, which we perform from the main function to the threads of operators and sensors.
+
+```
+INIT data_acces Semaphore to 1
+INIT tourniquet Semaphore to 1
+INIT barrier to 3 to wait for each other 3 sensors (P, T and H)
+INIT data_ready Event
+INIT monitor_lightswitch
+INIT sensor_lightswitch
+
+FUNCTION monitor
+    READ data_access, tourniquet, data_ready, monitor_lightswitch
+    
+    use data_ready to wait for all the data writing into the storage by the sensors
+    
+    WHILE true
+        tourniquet wait
+        tourniquet signal
+        
+        gain access to the data_access room using monitor_lightswitch
+        
+        reading data that takes 40 to 50 milliseconds
+        
+        release the data_access room using monitor_lightswitch
+    ENDWHILE
+ENDFUNCTION
+
+
+FUNCTION sensor
+    READ senzor_name, data_access, tourniquet, data_ready, sensor_lightswitch, barrier
+        
+    WHILE true
+        wait 50 to 60 milliseconds before writing 
+        
+        tourniquet wait
+        
+        gain access to the data_access room using sensor_lightswitch
+
+        tourniquet signal
+        
+        IF senzor_name == "H" THEN
+            writing data that takes 20 to 25 milliseconds
+        ELSE
+            writing data that takes 10 to 20 milliseconds 
+        ENDIF
+        
+        release the data_access room using sensor_lightswitch
+        
+        use barrier to synchronize senzors threads before next writing 
+        
+        use data_ready to give a signal to the monitor at the beginning that all the data has already been written
+    ENDWHILE
+ENDFUNCTION
+```
