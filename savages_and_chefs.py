@@ -7,7 +7,7 @@ from adt import Shared
 
 def get_portion_from_pot(savage_id, shared):
     print("savage %2d takes a portion" % savage_id)
-    shared.servings -= 1
+    shared.portions -= 1
 
 
 def eat(savage_id):
@@ -18,8 +18,8 @@ def eat(savage_id):
 def savage(savage_id, shared):
     while True:
         shared.mutex.lock()
-        if shared.servings == 0:
-            shared.empty_pot.signal()
+        if shared.portions == 0:
+            shared.empty_pot.set()
             shared.full_pot.wait()
         get_portion_from_pot(savage_id, shared)
         shared.mutex.unlock()
@@ -41,11 +41,12 @@ def cook(chef_id, max_portions, shared):
 
 def main():
     savages_count = 3
+    chefs_count = 3
     max_portions = 3
-    shared = Shared()
+    shared = Shared(chefs_count, max_portions)
 
     savages = [Thread(savage, savage_id, shared) for savage_id in range(savages_count)]
-    chefs = [Thread(cook, chef_id, max_portions, shared) for chef_id in range(1)]
+    chefs = [Thread(chef, chef_id, shared) for chef_id in range(chefs_count)]
 
     for thread in savages + chefs:
         thread.join()
