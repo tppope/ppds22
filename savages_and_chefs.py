@@ -15,6 +15,11 @@ def eat(savage_id):
     sleep(randint(1, 10) / 100)
 
 
+def cook(chef_id):
+    print("chef %2d cooks" % chef_id)
+    sleep(randint(1, 10) / 100)
+
+
 def savage(savage_id, shared):
     while True:
         shared.mutex.lock()
@@ -26,17 +31,11 @@ def savage(savage_id, shared):
         eat(savage_id)
 
 
-def put_servings_in_pot(chef_id):
-    print("chef %2d cooks" % chef_id)
-    sleep(randint(1, 10) / 1000)
-
-
-def cook(chef_id, max_portions, shared):
+def chef(chef_id, shared):
     while True:
         shared.empty_pot.wait()
-        put_servings_in_pot(chef_id)
-        shared.servings += max_portions
-        shared.full_pot.signal()
+        cook(chef_id)
+        shared.barrier.wait(chef_id, shared)
 
 
 def main():

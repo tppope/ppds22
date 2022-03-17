@@ -4,6 +4,11 @@ from time import sleep
 from fei.ppds import Mutex, Event, Semaphore
 
 
+def put_servings_in_pot(chef_id):
+    print("chef %2d put servings in pot" % chef_id)
+    sleep(randint(1, 10) / 1000)
+
+
 class ChefsReusableEventSimpleBarrier:
     """Synchronization pattern to achieve synchronization where all threads wait for each other before executing
     critical area. It is using abstract data types Mutex and Event for synchronization. Its instance is reusable,
@@ -30,6 +35,7 @@ class ChefsReusableEventSimpleBarrier:
         temp_counter = self.counter
         if self.counter == self.n:
             self.counter = 0
+            put_servings_in_pot(chef_id)
             shared.portions = shared.max_portions
             shared.empty_pot.clear()
             shared.full_pot.signal()
