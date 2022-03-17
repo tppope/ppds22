@@ -1,3 +1,11 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains implementation of synchronization patterns and shared objects that using abstract data types for
+    synchronization problems in savages and chefs exercise.
+"""
+
 from random import randint
 from time import sleep
 
