@@ -6,7 +6,7 @@
     take and eat portions from the pot, which are cooked by several chefs when the pot is empty.
 """
 
-from fei.ppds import Semaphore, Mutex, Thread, print
+from fei.ppds import Thread, print
 from random import randint
 from time import sleep
 
