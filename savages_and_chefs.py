@@ -2,13 +2,7 @@ from fei.ppds import Semaphore, Mutex, Thread, print
 from random import randint
 from time import sleep
 
-
-class Shared:
-    def __init__(self):
-        self.mutex = Mutex()
-        self.servings = 0
-        self.full_pot = Semaphore(0)
-        self.empty_pot = Semaphore(0)
+from adt import Shared
 
 
 def get_portion_from_pot(savage_id, shared):
