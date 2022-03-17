@@ -1,3 +1,11 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains the implementation of the savages and chefs synchronization exercise, where several savages
+    take and eat portions from the pot, which are cooked by several chefs when the pot is empty.
+"""
+
 from fei.ppds import Semaphore, Mutex, Thread, print
 from random import randint
 from time import sleep
