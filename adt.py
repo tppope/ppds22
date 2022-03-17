@@ -30,6 +30,7 @@ class ChefsReusableEventSimpleBarrier:
 
     def __init__(self, n):
         """Initialize number of threads to wait, counter and abstract data type Mutex and Event for synchronization.
+
         :param n: number of threads to wait on barrier
         """
         self.n = n
