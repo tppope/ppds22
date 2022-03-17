@@ -6,21 +6,40 @@ from adt import Shared
 
 
 def get_portion_from_pot(savage_id, shared):
+    """Removing a portion from the pot.
+
+    :param savage_id: identification number of the savage who takes the portion from the pot
+    :param shared: object with shared abstract data types
+    """
     print("savage %02d takes a portion" % savage_id)
     shared.portions -= 1
 
 
 def eat(savage_id):
+    """Demonstration like a savage eats
+
+    :param savage_id: identification number of the savage who eats
+    """
     print("savage %02d feasts" % savage_id)
     sleep(randint(1, 10) / 100)
 
 
 def cook(chef_id):
+    """Demonstration as a chef cooks.
+
+    :param chef_id: identification number of the chef who cooks
+    """
     print("chef %02d cooks" % chef_id)
     sleep(randint(1, 10) / 100)
 
 
 def savage(savage_id, shared):
+    """The savages use this function to demonstrate the synchronization of taking portions from the pot, into which the
+    chefs put portions if the pot is empty. Subsequently, they eat the taken portion.
+
+    :param savage_id: identification number of the savage
+    :param shared: object with shared abstract data types
+    """
     while True:
         shared.mutex.lock()
         if shared.portions == 0:
@@ -32,6 +51,12 @@ def savage(savage_id, shared):
 
 
 def chef(chef_id, shared):
+    """The chefs use this function to demonstrate the chefs cooking synchronization when the savages have eaten all
+    the portions in the pot.
+
+    :param chef_id: identification number of the chef
+    :param shared: object with shared abstract data types
+    """
     while True:
         shared.empty_pot.wait()
         cook(chef_id)
@@ -39,6 +64,9 @@ def chef(chef_id, shared):
 
 
 def main():
+    """Main function of the savage and chefs module.
+
+    """
     savages_count = 3
     chefs_count = 3
     max_portions = 3
