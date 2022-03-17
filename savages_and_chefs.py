@@ -6,17 +6,17 @@ from adt import Shared
 
 
 def get_portion_from_pot(savage_id, shared):
-    print("savage %2d takes a portion" % savage_id)
+    print("savage %02d takes a portion" % savage_id)
     shared.portions -= 1
 
 
 def eat(savage_id):
-    print("savage %2d feasts" % savage_id)
+    print("savage %02d feasts" % savage_id)
     sleep(randint(1, 10) / 100)
 
 
 def cook(chef_id):
-    print("chef %2d cooks" % chef_id)
+    print("chef %02d cooks" % chef_id)
     sleep(randint(1, 10) / 100)
 
 

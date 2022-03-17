@@ -5,7 +5,7 @@ from fei.ppds import Mutex, Event, Semaphore
 
 
 def put_servings_in_pot(chef_id):
-    print("chef %2d put servings in pot" % chef_id)
+    print("chef %02d put servings in pot" % chef_id)
     sleep(randint(1, 10) / 1000)
 
 
