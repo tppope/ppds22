@@ -29,3 +29,86 @@ calculations on graphics cards and asynchronous programming.
 10. CUDA continues
 
 ___
+
+## 4. Exercise
+
+> **For more information about exercise visit [https://uim.fei.stuba.sk/i-ppds/5-cvicenie-problem-fajciarov-problem-divochov-🚬/](https://uim.fei.stuba.sk/i-ppds/5-cvicenie-problem-fajciarov-problem-divochov-🚬/).**
+
+### Pseudocode
+
+Pseudocode wait() barrier function adapted for use in our savages and chefs exercise
+
+```
+INIT mutex Mutex
+INIT n as the number of threads needed to wait for each other
+INIT counter as the actual number of threads waiting on the barrier
+INIT event Event
+
+FUNCTION barrier.wait
+    READ empty_pot, full_pot, portions, max_portions
+    
+    mutex lock for atomic operation
+    counter += 1
+    // local variable for each thread, thanks to which we can avoid blocking the last thread, which will make clear
+    temp_counter = counter
+    
+    IF counter == n THEN
+        counter = 0
+        // the last chef puts the cooked portions in the pot...
+        portions = max_portions
+        empty_pot clear signal the chefs have to wait again until the pot is empty
+        full_pot signal for savages to be able to start taking portions of the pot
+        event set
+        event clear
+    ENDIF
+    
+    mutex unlock
+    
+    // do not block the thread that made clear
+    IF temp_counter != n THEN
+        event wait for all threads
+    ENDIF
+ENDFUNCTION
+```
+
+Pseudocode of functions, which we perform from the main function to the threads of savages and chefs.
+
+```
+INIT full_pot Semaphore to 0
+INIT mutex Mutex
+INIT barrier for synchronizing chefs after cooking
+INIT empty_pot Event
+INIT max_portions
+INIT portions for actual number of portions in the pot
+
+FUNCTION savage
+    READ mutex, empty_pot, full_pot, portions
+    
+    WHILE true
+        mutex lock for atomic operation
+        
+        IF portions == 0 THEN
+            empty_pot set to signal the chefs that they can start cooking
+            full_pot wait for the savage until the pot is full
+        ENDIF
+        
+        // take portion from the pot...
+        portions -= 1
+        
+        mutex unlock
+        
+        // eating...
+    ENDWHILE
+ENDFUNCTION
+
+
+FUNCTION chef
+    READ empty_pot, full_pot, portions, max_portions, barrier,
+        
+    WHILE true
+        empty_pot wait wait until the pot is empty
+        // cooking...
+        barrier.wait(empty_pot, full_pot, portions, max_portions) to synchronize chefs after cooking
+    ENDWHILE
+ENDFUNCTION
+```
