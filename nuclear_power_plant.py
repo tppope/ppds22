@@ -80,7 +80,7 @@ def sensor(sensor_name, control, lightswitch):
         control.data_ready.set()
 
 
-if __name__ == "__main__":
+def main():
     synch_control = Control()
     monitor_lightswitch = Lightswitch()
     sensor_lightswitch = Lightswitch()
@@ -96,3 +96,7 @@ if __name__ == "__main__":
     h_sensor.join()
 
     [operator.join() for operator in operators]
+
+
+if __name__ == "__main__":
+    main()
