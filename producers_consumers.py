@@ -102,7 +102,7 @@ def make_graph(x, y, z):
     plt.show()
 
 
-if __name__ == "__main__":
+def main():
     consumers_count = list(range(2, 13))
     producers_count = list(range(5, 16))
     iterations = 10
@@ -138,3 +138,7 @@ if __name__ == "__main__":
             item_average_counts[-1].append(total_item_count / iterations)
 
     make_graph(consumers_count, producers_count, item_average_counts)
+
+
+if __name__ == "__main__":
+    main()
