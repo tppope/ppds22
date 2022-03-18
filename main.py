@@ -50,7 +50,7 @@ def make_visual_histogram(data):
     pyplot.show()
 
 
-if __name__ == "__main__":
+def main():
     shared = Shared(1_000_000)
 
     mutex = Mutex()
@@ -62,3 +62,7 @@ if __name__ == "__main__":
 
     make_histogram(shared.numbers)
     make_visual_histogram(shared.numbers)
+
+
+if __name__ == "__main__":
+    main()
