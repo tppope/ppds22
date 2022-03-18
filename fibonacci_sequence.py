@@ -29,7 +29,7 @@ def make_fibonacci(fibonacci, adt, index):
     adt.signal()
 
 
-if __name__ == "__main__":
+def main():
     threads_count = 15
 
     fibonacci = [0] * (threads_count + 2)
@@ -43,3 +43,7 @@ if __name__ == "__main__":
         thread.join()
 
     print(fibonacci)
+
+
+if __name__ == "__main__":
+    main()

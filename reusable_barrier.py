@@ -46,7 +46,7 @@ def barrier_example(thread_name, barrier):
         ko(thread_name)
 
 
-if __name__ == "__main__":
+def main():
     threads_count = 10
 
     simple_barrier = ReusableEventSimpleBarrier(threads_count)
@@ -55,3 +55,7 @@ if __name__ == "__main__":
     threads = [Thread(barrier_example, 'Thread %d' % i, simple_barrier) for i in range(threads_count)]
     for thread in threads:
         thread.join()
+
+
+if __name__ == "__main__":
+    main()

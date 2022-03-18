@@ -27,7 +27,7 @@ def barrier_example(barrier, thread_id):
     print("Vlakno %d po bariere" % thread_id)
 
 
-if __name__ == "__main__":
+def main():
     threads_count = 5
 
     simple_barrier = EventSimpleBarrier(threads_count)
@@ -35,3 +35,7 @@ if __name__ == "__main__":
     threads = [Thread(barrier_example, simple_barrier, i) for i in range(threads_count)]
     for thread in threads:
         thread.join()
+
+
+if __name__ == "__main__":
+    main()
