@@ -17,7 +17,7 @@ def put_servings_in_pot(chef_id):
 
     :param chef_id: identification number of the chef who puts the portions into the pot
     """
-    print("chef %02d put servings in pot" % chef_id)
+    print("chef %02d put portions in the pot" % chef_id)
     sleep(randint(1, 10) / 1000)
 
 
