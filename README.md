@@ -34,9 +34,25 @@ ___
 
 > **For more information about exercise visit [https://uim.fei.stuba.sk/i-ppds/5-cvicenie-problem-fajciarov-problem-divochov-🚬/](https://uim.fei.stuba.sk/i-ppds/5-cvicenie-problem-fajciarov-problem-divochov-🚬/).**
 
+In this exercise, we can see a modified version of the synchronization problem for producers and consumers as chefs wait
+until the pot is empty and savages wait until the pot is filled. Since we are modifying the original version of the
+savages where instead of one chef there will be several chefs who will help with cooking, we also have a barrier
+synchronization problem. The barrier synchronizes all the chefs after cooking and the last chef who cooked his part puts
+the portions in the pot.
+
+The savages, as in the basic version, use Semaphore full_pot to wait until the pot is full. The savage who stops at this
+Semaphore also holds a mutex lock, so the other savages will wait for the mutex. In our modification, we changed
+empty_pot Semaphore to Event abstract data type, as we want to signal all chefs to start cooking.
+
+The chefs are waiting for Event empty_pot until the savages signal to them that the pot is empty. Subsequently, the
+chefs will start competing/parallel cooking. After cooking, we use a reusable barrier synchronization pattern using the
+abstract Event data type, so that the chefs wait for each other and the last one to put the portions in the pot. The
+last chef also calls clear() over the empty_pot Event so that the chefs start waiting again until the pot is empty and
+signalizes to the savages that they can start eating.
+
 ### Pseudocode
 
-Pseudocode wait() barrier function adapted for use in our savages and chefs exercise
+Pseudocode wait() barrier function adapted for use in our savages and chefs exercise.
 
 ```
 INIT mutex Mutex
