@@ -30,7 +30,7 @@ calculations on graphics cards and asynchronous programming.
 
 ___
 
-## 4. Exercise
+## 5. Exercise
 
 > **For more information about exercise visit [https://uim.fei.stuba.sk/i-ppds/5-cvicenie-problem-fajciarov-problem-divochov-🚬/](https://uim.fei.stuba.sk/i-ppds/5-cvicenie-problem-fajciarov-problem-divochov-🚬/).**
 
