@@ -1,4 +1,7 @@
-from fei.ppds import Thread, Mutex, Semaphore
+from random import randint
+from time import sleep
+
+from fei.ppds import Thread, Mutex, Semaphore, print
 
 from adt import ReusableEventSimpleBarrier
 
@@ -21,19 +24,83 @@ class Shared:
         self.barrier = ReusableEventSimpleBarrier(4)
 
 
-def hackers_boating(shared):
-    pass
+def boarding(member):
+    print(member + " is boarding...")
+    sleep(randint(1, 10) / 100)
 
 
-def serfs_boating(shared):
-    pass
+def sail_out(captain):
+    print(captain + " as captain gave signal to sail out...\n")
+    sleep(randint(1, 10) / 100)
+
+
+def hackers_boating(shared, hacker):
+    # delay for hacker threads order randomization
+    sleep(randint(1, 10) / 100)
+    while True:
+        is_captain = False
+        shared.mutex.lock()
+        shared.hackers_count += 1
+        if shared.hackers_count == 4:
+            is_captain = True
+            shared.hackers_count = 0
+            shared.hackers_queue.signal(4)
+        elif shared.hackers_count == 2 and shared.serfs_count >= 2:
+            is_captain = True
+            shared.hackers_count = 0
+            shared.hackers_queue.signal(2)
+            shared.serfs_count -= 2
+            shared.serfs_queue.signal(2)
+        else:
+            shared.mutex.unlock()
+
+        shared.hackers_queue.wait()
+
+        boarding(hacker)
+        # wait for four members...
+        shared.barrier.wait()
+
+        if is_captain:
+            sail_out(hacker)
+            shared.mutex.unlock()
+
+
+def serfs_boating(shared, serf):
+    # delay for serf threads order randomization
+    sleep(randint(1, 10) / 100)
+    while True:
+        is_captain = False
+        shared.mutex.lock()
+        shared.serfs_count += 1
+        if shared.serfs_count == 4:
+            is_captain = True
+            shared.serfs_count = 0
+            shared.serfs_queue.signal(4)
+        elif shared.serfs_count == 2 and shared.hackers_count >= 2:
+            is_captain = True
+            shared.serfs_count = 0
+            shared.serfs_queue.signal(2)
+            shared.hackers_count -= 2
+            shared.hackers_queue.signal(2)
+        else:
+            shared.mutex.unlock()
+
+        shared.serfs_queue.wait()
+
+        boarding(serf)
+        # wait for four members...
+        shared.barrier.wait()
+
+        if is_captain:
+            sail_out(serf)
+            shared.mutex.unlock()
 
 
 def main():
     shared = Shared()
 
-    hackers = [Thread(hackers_boating, shared) for _ in range(4)]
-    serfs = [Thread(serfs_boating, shared) for _ in range(4)]
+    hackers = [Thread(hackers_boating, shared, "Hacker " + str(hacker)) for hacker in range(8)]
+    serfs = [Thread(serfs_boating, shared, "Serf " + str(serf)) for serf in range(8)]
 
     for thread in hackers + serfs:
         thread.join()
