@@ -1,3 +1,12 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains the implementation of the "crossing the river by hackers and serfs" synchronization exercise,
+    where the capacity of a ship in our implementation is four and there may be four hackers or four slaves or two
+    hackers and two slaves on the ship.
+"""
+
 from random import randint
 from time import sleep
 
