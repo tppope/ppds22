@@ -25,19 +25,35 @@ class Shared:
 
 
 def boarding(member):
+    """Demonstration of boat crew member boating.
+
+    :param member: identification of boat crew member
+    """
     print(member + " is boarding...")
     sleep(randint(1, 10) / 100)
 
 
 def sail_out(captain):
+    """Demonstration of giving signal by captain to sail out.
+
+    :param captain: identification of captain
+    """
     print(captain + " as captain gave signal to sail out...\n")
     sleep(randint(1, 10) / 100)
 
 
 def hackers_boating(shared, hacker):
+    """Hackers use this feature to board and try to cross the river. They can only get on a ship when there are four
+    or two of them. When there are two, they will be on the ship with two serfs since the capacity of the ship is 4.
+    This function includes the synchronization of their threads with the threads of the serfs to cross the river.
+
+    :param shared: object with shared abstract data types
+    :param hacker: identification of hacker
+    """
     # delay for hacker threads order randomization
     sleep(randint(1, 10) / 100)
     while True:
+        # local variable to identify only one captain who will be the last member to board
         is_captain = False
         shared.mutex.lock()
         shared.hackers_count += 1
@@ -60,15 +76,24 @@ def hackers_boating(shared, hacker):
         # wait for four members...
         shared.barrier.wait()
 
+        # only the captain can signal to sail and release the mutex so that a new group can board
         if is_captain:
             sail_out(hacker)
             shared.mutex.unlock()
 
 
 def serfs_boating(shared, serf):
+    """Serfs use this feature to board and try to cross the river. They can only get on a ship when there are four
+    or two of them. When there are two, they will be on the ship with two hackers since the capacity of the ship is 4.
+    This function includes the synchronization of their threads with the threads of the hackers to cross the river.
+
+    :param shared: object with shared abstract data types
+    :param serf: identification of serf
+    """
     # delay for serf threads order randomization
     sleep(randint(1, 10) / 100)
     while True:
+        # local variable to identify only one captain who will be the last member to board
         is_captain = False
         shared.mutex.lock()
         shared.serfs_count += 1
@@ -91,6 +116,7 @@ def serfs_boating(shared, serf):
         # wait for four members...
         shared.barrier.wait()
 
+        # only the captain can signal to sail and release the mutex so that a new group can board
         if is_captain:
             sail_out(serf)
             shared.mutex.unlock()
