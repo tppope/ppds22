@@ -70,11 +70,11 @@ def sensor(sensor_name, control, lightswitch):
         # writing data...
         sleep(writing_duration / 1000)
 
-        # release access to the room by last sensor thread
-        lightswitch.switch_off(control.data_access)
-
         # sensors wait for each other due to different write times
         control.barrier.wait()
+
+        # release access to the room by last sensor thread
+        lightswitch.switch_off(control.data_access)
 
         # signal for operators can read because all sensors have written their data
         control.data_ready.set()
