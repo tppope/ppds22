@@ -93,7 +93,7 @@ def serfs_boating(shared, serf):
     # delay for serf threads order randomization
     sleep(randint(1, 10) / 100)
     while True:
-        # local variable to identify only one captain who will be the last member to board
+        # local variable to identify only one captain who will be the last member to board after sail up
         is_captain = False
         shared.mutex.lock()
         shared.serfs_count += 1
@@ -116,7 +116,7 @@ def serfs_boating(shared, serf):
         # wait for four members...
         shared.barrier.wait()
 
-        # only the captain can signal to sail and release the mutex so that a new group can board
+        # only the captain can signal to sail and release the mutex so that a new group can board after sail up
         if is_captain:
             sail_out(serf)
             shared.mutex.unlock()
