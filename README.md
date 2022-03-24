@@ -29,3 +29,7 @@ calculations on graphics cards and asynchronous programming.
 10. CUDA continues
 
 ___
+
+## 6. Exercise
+
+> **For more information about exercise visit [https://uim.fei.stuba.sk/i-ppds/6-cvicenie-menej-klasicke-synchronizacne-problemy/](https://uim.fei.stuba.sk/i-ppds/6-cvicenie-menej-klasicke-synchronizacne-problemy/).**
