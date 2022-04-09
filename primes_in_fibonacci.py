@@ -60,16 +60,16 @@ def check_prime():
                 is_prime = False
 
 
-def primes_counter():
+def primes_counter(is_prime):
     """Function that represents a generator that obtains a number from a Fibonacci sequence and determines if it is a
     prime number. If close() is called over this generator, GeneratorExit Exception is thrown and close() is called
     over the check_prime generator, and the count and individual prime numbers found in the Fibonacci sequence are
     printed.
 
+    :param is_prime: function (generator) checks if number which is sent to it is prime number
     """
-    primes = []
-    is_prime = check_prime()
     next(is_prime)
+    primes = []
     try:
         while True:
             # get number to check if it is prime number
@@ -90,7 +90,8 @@ def fibonacci_sequence():
     the Fibonacci sequence is displayed and close is called over the prime_count generator.
 
     """
-    primes_count = primes_counter()
+    is_prime = check_prime()
+    primes_count = primes_counter(is_prime)
     next(primes_count)
     fibonacci_array = []
     try:
