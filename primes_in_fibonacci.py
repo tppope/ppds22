@@ -1,3 +1,11 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains the implementation of the "primes in fibonacci" co-program to demonstrate asynchronous
+    programming using generators in python.
+"""
+
 from math import sqrt
 
 
