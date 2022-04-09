@@ -1,4 +1,16 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains the implementation of the "first letter capitalized" co-program to demonstrate asynchronous
+    programming using generators in python.
+"""
+
+
 def capitalize_first_letter():
+    """
+
+    """
     file_writing = write_file(open("new_text.txt", "w"))
     capitalize = split_and_capitalize(file_writing)
     file_reading = read_file(capitalize)
@@ -14,6 +26,10 @@ def capitalize_first_letter():
 
 
 def read_file(capitalize):
+    """
+
+    :param capitalize:
+    """
     next(capitalize)
     file_count = 0
     try:
@@ -28,6 +44,10 @@ def read_file(capitalize):
 
 
 def write_file(file):
+    """
+
+    :param file:
+    """
     chars_count = 0
     try:
         while True:
@@ -40,6 +60,10 @@ def write_file(file):
 
 
 def split_and_capitalize(file_writing):
+    """
+
+    :param file_writing:
+    """
     next(file_writing)
     capitalized_words_count = 0
     try:
