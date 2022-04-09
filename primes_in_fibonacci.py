@@ -103,7 +103,7 @@ def fibonacci_sequence():
             yield
 
     except GeneratorExit:
-        print("----- Primes in Fibonacci co-program -----\n")
+        print("\n----- Primes in Fibonacci co-program -----\n")
         print("Count of numbers in Fibonacci sequence is %d" % len(fibonacci_array))
         print("Numbers in Fibonacci sequence:", end=" ")
         print(fibonacci_array, end="\n\n")
