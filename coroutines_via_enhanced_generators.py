@@ -2,6 +2,7 @@ from time import sleep
 
 from fei.ppds import Thread
 
+from first_letter_capitalized import capitalize_first_letter
 from primes_in_fibonacci import fibonacci_sequence
 
 
@@ -18,9 +19,12 @@ def scheduler(shared):
     :param shared:
     """
     fibonacci = fibonacci_sequence()
+    first_letter_capitalized = capitalize_first_letter()
     while not shared.is_over:
         next(fibonacci)
+        next(first_letter_capitalized)
     fibonacci.close()
+    first_letter_capitalized.close()
 
 
 def main():
