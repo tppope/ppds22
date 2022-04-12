@@ -1,3 +1,11 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains the implementation of the "scheduler" of co-programs to demonstrate asynchronous
+    programming using generators in python.
+"""
+
 from time import sleep
 
 from fei.ppds import Thread
