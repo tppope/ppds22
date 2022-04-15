@@ -4,6 +4,11 @@ import requests
 
 
 def is_prime(number):
+    """Function that makes a request to the API that returns to us whether the number we sent as parameter in the url
+    is a prime number or not.
+
+    :param number: number to check if it is a prime number
+    """
     start_time = time.perf_counter()
     print("Start finding out if the number %d is a prime number" % number)
     url = "http://api.prime-numbers.io/is-this-number-prime.php?" \
@@ -19,6 +24,10 @@ def is_prime(number):
 
 
 def get_weather(city):
+    """Function that makes a request to the API that returns to us weather in city we sent as parameter in the url.
+
+    :param city: The city we are looking for the weather for
+    """
     print("Start finding out weather in %s" % city)
     start_time = time.perf_counter()
     url = "https://api.openweathermap.org/data/2.5/weather?" \
@@ -32,6 +41,9 @@ def get_weather(city):
 
 
 def main():
+    """Main function.
+
+    """
     [is_prime(number) for number in [10_000_000, 10_000_019, 1_000_000_000, 1_000_000_007]]
 
     [get_weather(city) for city in ["Presov", "Praha", "Bratislava", "Nižná Šebastová"]]
