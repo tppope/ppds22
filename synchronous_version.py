@@ -1,3 +1,11 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains the implementation of the synchronous version of checking if the numbers are prime numbers and
+    finding weather for cities.
+"""
+
 import time
 
 import requests
@@ -26,7 +34,7 @@ def is_prime(number):
 def get_weather(city):
     """Function that makes a request to the API that returns to us weather in city we sent as parameter in the url.
 
-    :param city: The city we are looking for the weather for
+    :param city: the city we are looking for the weather for
     """
     print("Start finding out weather in %s" % city)
     start_time = time.perf_counter()
