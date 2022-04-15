@@ -28,7 +28,6 @@ def is_prime(number):
 
     end_time = time.perf_counter()
     print("Number %d %s prime number -> elapsed: %0.2fs" % (number, is_p, end_time - start_time))
-    print()
 
 
 def get_weather(city):
@@ -45,7 +44,6 @@ def get_weather(city):
     end_time = time.perf_counter()
     print("Weather in %s is %0.2f°C, %s -> elapsed: %0.2fs" % (
         city, response["main"]["temp"], response["weather"][0]["description"], end_time - start_time))
-    print()
 
 
 def main():
