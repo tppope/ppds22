@@ -1,3 +1,11 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains the implementation of the asynchronous version of checking if the numbers are prime numbers and
+    finding weather for cities.
+"""
+
 import time
 import aiohttp
 import asyncio
