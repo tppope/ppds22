@@ -1,13 +1,12 @@
-def is_prime(number):
-    pass
-
-
-def get_weather(city):
-    pass
+import synchronous_version
+import time
 
 
 def main():
-    pass
+    start_time = time.perf_counter()
+    synchronous_version.main()
+    end_time = time.perf_counter()
+    print("Total elapsed time: %0.2fs" % (end_time - start_time))
 
 
 if __name__ == "__main__":
