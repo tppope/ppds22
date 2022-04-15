@@ -4,6 +4,11 @@ import asyncio
 
 
 async def is_prime(number):
+    """Asynchronous function that makes a request to the API that returns to us whether the number we sent as
+    parameter in the url is a prime number or not.
+
+    :param number: number to check if it is a prime number
+    """
     start_time = time.perf_counter()
     print("Start finding out if the number %d is a prime number" % number)
     url = "http://api.prime-numbers.io/is-this-number-prime.php?" \
@@ -22,6 +27,11 @@ async def is_prime(number):
 
 
 async def get_weather(city):
+    """Asynchronous function that makes a request to the API that returns to us weather in city we sent as parameter
+    in the url.
+
+    :param city: the city we are looking for the weather for
+    """
     print("Start finding out weather in %s" % city)
     start_time = time.perf_counter()
     url = "https://api.openweathermap.org/data/2.5/weather?" \
@@ -37,5 +47,8 @@ async def get_weather(city):
 
 
 async def main():
+    """Main function that starts asynchronous functions.
+
+    """
     await asyncio.gather(*[is_prime(number) for number in [10_000_000, 10_000_019, 1_000_000_000, 1_000_000_007]] +
                           [get_weather(city) for city in ["Presov", "Praha", "Bratislava", "Nižná Šebastová"]])
