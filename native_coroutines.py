@@ -1,3 +1,10 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains the call of the native coroutines and synchronous version and comparing program execution time.
+"""
+
 import asyncio
 import asynchronous_version
 import synchronous_version
