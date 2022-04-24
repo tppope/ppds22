@@ -30,8 +30,7 @@ calculations on graphics cards and asynchronous programming.
 
 ___
 
-<p align="center">
-    <video src="Louis_Van_Gaal_0-before.mp4" width="608" height="458" alt="Problem histogram visualization"></video>
-    <br>
-    <video src="Louis_Van_Gaal_0-after.mp4" width="441" height="19" alt="Problem histogram"></video>
+<p style="display: flex; justify-content: space-around">
+    <img src="Louis_Van_Gaal_0-before.gif" width="256" height="256" alt="Louis Van Gaal before video processing">
+    <img src="Louis_Van_Gaal_0-after.gif" width="256" height="256" alt="Louis Van Gaal after video processing">
 </p>
