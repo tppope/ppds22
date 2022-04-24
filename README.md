@@ -29,3 +29,9 @@ calculations on graphics cards and asynchronous programming.
 10. CUDA continues
 
 ___
+
+## 10. Exercise
+
+> **For more information about exercise
+visit [https://uim.fei.stuba.sk/i-ppds/cvicenie-10-cuda-prudy-a-udalosti/](https://uim.fei.stuba.sk/i-ppds/cvicenie-10-cuda-prudy-a-udalosti/)
+.**
