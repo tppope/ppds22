@@ -72,7 +72,7 @@ would run in series. Therefore, executing instructions on multiple data over the
 # arrangement of threads in a block
 threads_per_block = (32, 32)
 
-for frame in tqdm(video):
+for frame in video:
     # arrangement of blocks in a grid
     blocks_per_grid_x = math.ceil(frame.shape[0] / threads_per_block[0])
     blocks_per_grid_y = math.ceil(frame.shape[1] / threads_per_block[1])
