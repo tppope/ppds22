@@ -1,3 +1,12 @@
+"""
+    Author: Tomas Popik
+    License: MIT
+
+    This file contains an implementation of code that demonstrates performing a pixel intensity change in video on
+    graphics card cores using a cuda framework. Cuda gives us the impression that the code is executed on a graphics
+    card, even though our machine does not have an Nvidia graphics card.
+"""
+
 import math
 
 import numpy
