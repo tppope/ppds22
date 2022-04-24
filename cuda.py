@@ -74,6 +74,7 @@ def main():
     # arrangement of threads in a block
     threads_per_block = (32, 32)
 
+    # tqdm to show loading bar in console
     for frame in tqdm(video):
         # arrangement of blocks in a grid
         blocks_per_grid_x = math.ceil(frame.shape[0] / threads_per_block[0])
