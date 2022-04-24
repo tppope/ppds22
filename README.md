@@ -8,7 +8,7 @@
 
 The content of the course is the analysis of various synchronization patterns. Our goal is to offer students the
 opportunity to become familiar with various synchronization problems along with their solutions. By synchronization
-problems we mean the solution of the coordination of concurrently (perhaps also simultaneously) performed tasks in order
+issues we mean the solution of the coordination of concurrently (perhaps also simultaneously) performed tasks in order
 to ensure the integrity of the data with which the individual tasks work; of course, we also demand that a correct
 calculation result be achieved.
 
@@ -40,8 +40,10 @@ In this exercise, we demonstrated performing a pixel intensity change in video o
 framework. Cuda gives us the impression that the code is executed on the graphics card, even though our machine does not
 have an Nvidia graphics card.
 
-The function that we want to be performed on the cores of the graphics card is marked with the decorator @ cuda.jit.
-Subsequently, we use the function cuda.grid(n) to obtain thread indices in n-dimensional space.
+The function that we want to be performed on the cores of the graphics card is marked with the decorator @cuda.jit.
+Subsequently, we use the function cuda.grid(n) to obtain thread indices in n-dimensional space. The CPU synchronously
+reads the images from the video and then calls this function to perform a parallel calculation with the pixels of this
+image on the cores of the graphics card.
 
 ```python
 @cuda.jit
