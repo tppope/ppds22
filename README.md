@@ -29,3 +29,9 @@ calculations on graphics cards and asynchronous programming.
 10. CUDA continues
 
 ___
+
+<p align="center">
+    <video src="Louis_Van_Gaal_0-before.mp4" width="608" height="458" alt="Problem histogram visualization"></video>
+    <br>
+    <video src="Louis_Van_Gaal_0-after.mp4" width="441" height="19" alt="Problem histogram"></video>
+</p>
