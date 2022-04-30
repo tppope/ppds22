@@ -13,6 +13,7 @@ import numpy
 from numba import cuda
 import cv2 as cv
 from tqdm import tqdm
+from time import perf_counter
 
 
 @cuda.jit
@@ -24,13 +25,20 @@ def my_kernel_image(image):
     :param image: common image for all threads on the graphics card
     """
     row, column = cuda.grid(2)
-    if row < image.shape[0] and column < image.shape[1]:
-        pixel = image[row][column]
-        intensity = 0.299 * pixel[0] + 0.587 * pixel[1] + 0.114 * pixel[2]
-        if intensity < 100:
-            image[row][column] = 0
-        else:
-            image[row][column] = 255
+    iteration_x = image.size // cuda.blockDim.x
+    for i in range(iteration_x):
+        x = i * cuda.blockDim.x + row
+        if x < image.shape[0]:
+            iteration_y = image[x].size // cuda.blockDim.y
+            for j in range(iteration_y):
+                y = j * cuda.blockDim.y + column
+                if y < image.shape[1]:
+                    pixel = image[x][y]
+                    intensity = 0.299 * pixel[0] + 0.587 * pixel[1] + 0.114 * pixel[2]
+                    if intensity < 100:
+                        image[x][y] = 0
+                    else:
+                        image[x][y] = 255
 
 
 def get_video_as_array(path):
@@ -63,6 +71,18 @@ def save_video_as_mp4(name, video):
     video_output.release()
 
 
+def get_streams_for_video(video):
+    return [cuda.stream() for _ in range(len(video))]
+
+
+def get_gpu_data(video, cuda_streams):
+    return [cuda.to_device(video[i], stream=cuda_streams[i]) for i in range(len(video))]
+
+
+def get_host_data(gpu_data, cuda_streams):
+    return numpy.array([gpu_data[i].copy_to_host(stream=cuda_streams[i]) for i in range(len(gpu_data))])
+
+
 def main():
     """The main function that loads the video and sends its images for processing to a function that will be
     performed on the cores of the graphics card and will change the pixel intensity.
@@ -74,16 +94,31 @@ def main():
     # arrangement of threads in a block
     threads_per_block = (32, 32)
 
+    # get streams for parallel run of multiple image processing kernels
+    cuda_streams = get_streams_for_video(video)
+
+    # put video on gpu global storage and get this storage
+    gpu_data = get_gpu_data(video, cuda_streams)
+
+    start_time = perf_counter()
+
     # tqdm to show loading bar in console
-    for frame in tqdm(video):
+    for i in tqdm(range(len(video))):
         # arrangement of blocks in a grid
-        blocks_per_grid_x = math.ceil(frame.shape[0] / threads_per_block[0])
-        blocks_per_grid_y = math.ceil(frame.shape[1] / threads_per_block[1])
+        blocks_per_grid_x = math.ceil(video[i].shape[0] / threads_per_block[0])
+        blocks_per_grid_y = math.ceil(video[i].shape[1] / threads_per_block[1])
 
         # calling a function that will be performed on the graphics card
-        my_kernel_image[(blocks_per_grid_x, blocks_per_grid_y), threads_per_block](frame)
+        my_kernel_image[(blocks_per_grid_x, blocks_per_grid_y), threads_per_block, cuda_streams[i]](gpu_data[i])
+
+    end_time = perf_counter()
+
+    # get video from gpu global storage
+    video = get_host_data(gpu_data, cuda_streams)
 
     save_video_as_mp4("Louis_Van_Gaal_0-after", video)
+
+    print('Total time: %f' % (end_time - start_time))
 
 
 if __name__ == "__main__":
