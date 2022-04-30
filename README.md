@@ -30,10 +30,10 @@ calculations on graphics cards and asynchronous programming.
 
 ___
 
-## 9. Exercise
+## 10. Exercise
 
 > **For more information about exercise
-visit [https://uim.fei.stuba.sk/i-ppds/9-cvicenie-cuda-pomocou-numba/](https://uim.fei.stuba.sk/i-ppds/9-cvicenie-cuda-pomocou-numba/)
+visit [https://uim.fei.stuba.sk/i-ppds/cvicenie-10-cuda-prudy-a-udalosti/](https://uim.fei.stuba.sk/i-ppds/cvicenie-10-cuda-prudy-a-udalosti/)
 .**
 
 In this exercise, we demonstrated performing a pixel intensity change in video on graphics card cores using a cuda
