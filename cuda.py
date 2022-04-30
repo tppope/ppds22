@@ -72,14 +72,32 @@ def save_video_as_mp4(name, video):
 
 
 def get_streams_for_video(video):
+    """This function returns a stream for each frame of the video so that the processing of all frames can run in
+    parallel.
+
+    :param video: array of video frames
+    :return: stream for each frame of the video
+    """
     return [cuda.stream() for _ in range(len(video))]
 
 
 def get_gpu_data(video, cuda_streams):
+    """Transaction of video frames from computer memory to global gpu memory.
+
+    :param video: array of video frames
+    :param cuda_streams: stream for each frame of the video
+    :return: an array of video frames stored in the global gpu memory
+    """
     return [cuda.to_device(video[i], stream=cuda_streams[i]) for i in range(len(video))]
 
 
 def get_host_data(gpu_data, cuda_streams):
+    """Transaction of video frames from the global gpu memory to the computer memory.
+
+    :param gpu_data: array of video frames in global gpu memory
+    :param cuda_streams: stream for each frame of the video
+    :return: an array of video frames stored in the computer memory
+    """
     return numpy.array([gpu_data[i].copy_to_host(stream=cuda_streams[i]) for i in range(len(gpu_data))])
 
 
