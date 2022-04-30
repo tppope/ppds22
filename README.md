@@ -89,3 +89,86 @@ Below we see the video before and after processing by our program where we give 
     <img src="Louis_Van_Gaal_0-before.gif" width="256" height="256" alt="Louis Van Gaal before video processing">
     <img src="Louis_Van_Gaal_0-after.gif" width="256" height="256" alt="Louis Van Gaal after video processing">
 </p>
+
+---
+
+## Exercise 10 begins here
+
+In this exercise, we go to optimize the work with the graphics card, so the output remains.
+
+Since we do not have a physical graphics card and only use the numba library, which can simulate the use of a graphics
+card on our cpu, we will not experience optimization results in this task. But that doesn't stop us from understanding
+it and learning to use it. It is also not possible to obtain device information such as the maximum number of threads
+and blocks executed on the multiprocessor and much more. But we will assume that each warp has 32 threads, just like
+every Nvidia graphics card. We also consider that the graphics card accesses its global memory after transactions in
+sizes 32, 64, and 128. In order to minimize the number of transactions, we need to optimize this access to global
+memory.
+
+But first, you need to move all the data that your graphics card should work with from your computer's memory to the
+global graphics card's memory. This shift takes a very long time in terms of calculation. Therefore, it is necessary to
+move as much data as possible that the graphics card should handle. The `get_gpu_data(video, cuda_streams)` function
+moves video frames from the computer's memory to the graphics card's global memory and returns the address of that data.
+
+```python
+def get_gpu_data(video, cuda_streams):
+    return [cuda.to_device(video[i], stream=cuda_streams[i]) for i in range(len(video))]
+```
+
+Subsequently, in our function for changing the pixel intensity of video frames, we adjust the calculation of the pixel
+access index to minimize the number of transactions. We will access the pixels in order as they are stored in
+memory, and thus we are able to process 32 pixels in one transaction.
+
+Since we do not have a physical graphics card, these index calculations will rapidly reduce our performance. However, it
+would be much faster on the graphics card, while we use the maximum amount of data in one transaction.
+
+```python
+row, column = cuda.grid(2)
+iteration_x = image.size // cuda.blockDim.x
+for i in range(iteration_x):
+    x = i * cuda.blockDim.x + row
+    if x < image.shape[0]:
+        iteration_y = image[x].size // cuda.blockDim.y
+        for j in range(iteration_y):
+            y = j * cuda.blockDim.y + column
+            if y < image.shape[1]:
+                pixel = image[x][y]
+                intensity = 0.299 * pixel[0] + 0.587 * pixel[1] + 0.114 * pixel[2]
+                if intensity < 100:
+                    image[x][y] = 0
+                else:
+                    image[x][y] = 255
+```
+
+Finally, you need to get the processed data back from the global graphics card memory to the computer memory using the
+`get_host_data(gpu_data, cuda_streams)` function.
+
+```python
+def get_host_data(gpu_data, cuda_streams):
+    return numpy.array([gpu_data[i].copy_to_host(stream=cuda_streams[i]) for i in range(len(gpu_data))])
+```
+
+In our program, each frame of the video is currently being edited sequentially. We use streams to process all images in
+the video in parallel. Using the `get_streams_for_video(video)` function, we get a stream for each video frame.
+
+```python
+def get_streams_for_video(video):
+    return [cuda.stream() for _ in range(len(video))]
+```
+
+Subsequently, when calling the kernel, we say in which stream the kernel should be executed. This will ensure that video
+frames are processed in parallel.
+
+```python
+for i in range(len(video)):
+    # arrangement of blocks in a grid
+    blocks_per_grid_x = math.ceil(video[i].shape[0] / threads_per_block[0])
+    blocks_per_grid_y = math.ceil(video[i].shape[1] / threads_per_block[1])
+
+    # calling a function that will be performed on the graphics card
+    my_kernel_image[(blocks_per_grid_x, blocks_per_grid_y), threads_per_block, cuda_streams[i]](gpu_data[i])
+```
+
+After this optimization, we measured the time, but as I wrote above, the execution time was even worse because we do not
+have a physical graphics card. On a physical graphics card, this would be much faster as we drag video frames from the
+global card memory and use entire transactions to access pixels in global memory. We also use streams to run individual
+video frames in parallel.
