@@ -4,7 +4,10 @@
 
     This file contains an implementation of code that demonstrates performing a pixel intensity change in video on
     graphics card cores using a cuda framework. Cuda gives us the impression that the code is executed on a graphics
-    card, even though our machine does not have an Nvidia graphics card.
+    card, even though our machine does not have an Nvidia graphics card. In this file, we already use optimization
+    processes such as streams for parallel running kernel image editing functions for all video frames. We also
+    transfer video from computer memory to global gpu memory so that long transactions do not always have to be
+    performed.
 """
 
 import math
